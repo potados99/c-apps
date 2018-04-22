@@ -1,4 +1,4 @@
-/
+//
 //  main.c
 //  rand-test
 //
@@ -38,10 +38,10 @@ int main(int argc, const char * argv[]) {
     // Practice 4
     char **charArr;
     charArr = split("테스트 문자열 1번 테스트 문자열 두번째", ' ');
-    
+
     for (i = 0; i < 10; i ++) {
         printf("%s\n", charArr[i]);
     }
-    
+
     return 0;
 }
