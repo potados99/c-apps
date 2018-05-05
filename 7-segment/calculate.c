@@ -42,57 +42,39 @@ uint32 *dec_to_BDCs(uint32 decNum) {
 uint32 *BCDs_to_segments(uint32 *BCDs) {
     uint32 *segments = (uint32 *)malloc(sizeof(uint32) * BCDs[0]);
     segments[0] = BCDs[0];
+    uint32 A, B, C, D;
     
     register unsigned i;
     for (i = 1; i < BCDs[0]; i ++) {
-
-        switch (BCDs[i]) {
-            case (0 | 0 | 0 | 0):
-                segments[i] = SEGMENT_A | SEGMENT_B | SEGMENT_C | SEGMENT_D | SEGMENT_E | SEGMENT_F;
-                break;
-                
-            case (0 | 0 | 0 | 1):
-                segments[i] = SEGMENT_B | SEGMENT_C;
-                break;
-                
-            case (0 | 0 | 2 | 0):
-                segments[i] = SEGMENT_A | SEGMENT_B | SEGMENT_D | SEGMENT_E | SEGMENT_G;
-                break;
-                
-            case (0 | 0 | 2 | 1):
-                segments[i] = SEGMENT_A | SEGMENT_B | SEGMENT_C | SEGMENT_D | SEGMENT_G;
-                break;
-                
-            case (0 | 4 | 0 | 0):
-                segments[i] = SEGMENT_B | SEGMENT_C | SEGMENT_F | SEGMENT_G;
-                break;
-                
-            case (0 | 4 | 0 | 1):
-                segments[i] = SEGMENT_A | SEGMENT_C | SEGMENT_D | SEGMENT_F | SEGMENT_G;
-                break;
-                
-            case (0 | 4 | 2 | 0):
-                segments[i] = SEGMENT_A | SEGMENT_C | SEGMENT_D | SEGMENT_E | SEGMENT_F | SEGMENT_G;
-                break;
-                
-            case (0 | 4 | 2 | 1):
-                segments[i] = SEGMENT_A | SEGMENT_B | SEGMENT_C;
-                break;
-                
-            case (8 | 0 | 0 | 0):
-                segments[i] = SEGMENT_A | SEGMENT_B | SEGMENT_C | SEGMENT_D | SEGMENT_E | SEGMENT_F | SEGMENT_G;
-                break;
-                
-            case (8 | 0 | 0 | 1):
-                segments[i] = SEGMENT_A | SEGMENT_B | SEGMENT_C | SEGMENT_D | SEGMENT_F | SEGMENT_G;
-                break;
-                
-            default:
-                fprintf(stderr, "Number over 10");
-                exit(1);
-                break;
-        }
+        
+        A = BCDs[i] & 8;
+        B = BCDs[i] & 4;
+        C = BCDs[i] & 2;
+        D = BCDs[i] & 1;
+        
+        segments[i] += (A || ((!B)&&C) || (B&&D) || ((!B)&&(!D))) ? SEGMENT_A : 0;
+        segments[i] += ((!B) || ((!C)&&(!D)) || (C&&D)) ? SEGMENT_B : 0;
+        segments[i] += (B || (!C) || D) ? SEGMENT_C : 0;
+        segments[i] += ((B&&(!C)&&D) || ((!B)&&(!D)) || ((!B)&&C) || (C&&(!D))) ? SEGMENT_D : 0;
+        segments[i] += (((!B)&&(!D)) || (C&&(!D))) ? SEGMENT_E : 0;
+        segments[i] += (((!C)&&(!D)) || (B&&(!C)) || (B&&(!D)) || A) ? SEGMENT_F : 0;
+        segments[i] += (((!B)&&C) || (B&&(!C)) || A || (B&&(!D)) || (C&&(!D))) ? SEGMENT_G : 0;
     }
-
+    
     return segments;
 }
+
+
+
+/*
+ 
+ A 0001
+ 
+ C 0010
+ 
+ 
+ 
+ 
+ 
+ 
+ */
