@@ -132,11 +132,6 @@ int (*get_average(int ofDepth, int throughDepth, int inDepth, int inIndex, int (
     return average;
 }
 
-
-
-
-
-
 int (*get_order_by_avg(int (*average))) {
     static int order[BRANCHES];
     unsigned short i = 0;

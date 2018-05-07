@@ -24,9 +24,7 @@ char (**get_branches(void));
 char (**get_years(void));
 int (*get_result(void))[BRANCHES][MONTHS];
 int (*get_result_average(int (*result)[BRANCHES][MONTHS]))[BRANCHES][MONTHS];
-
 int (*get_average(int ofDepth, int throughDepth, int inDepth, int inIndex, int (*result)[BRANCHES][MONTHS]));
-
 int (*get_order_by_avg(int (*average)));
 int (*get_order_by_none(void));
 int rounds(double num);

@@ -10,7 +10,6 @@
 
 #include <stdio.h>
 #include "routine.h"
-#include "data.h"
 
 int main(int argc, const char * argv[]) {
     start_main_memu_loop();
