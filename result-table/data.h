@@ -12,16 +12,21 @@
 #define YEARS 3
 #define BRANCHES 4
 #define MONTHS 6
+#define POSSIBLE_MAX_LENGTH 6
+
+#define YEAR_DEPTH 1
+#define BRANCH_DEPTH 2
+#define MONTH_DEPTH 3
 
 #include <stdio.h>
 
 char (**get_branches(void));
 char (**get_years(void));
 int (*get_result(void))[BRANCHES][MONTHS];
-int (*get_result_average(int (*result)[BRANCHES][MONTHS]))[MONTHS];
-int (*get_average(int (*resultOfYear)[MONTHS]));
-int (*get_average_of_months_of_branch(int (*result)[BRANCHES][MONTHS], const int branchIndex));
-int (*get_average_of_years_of_branch(int (*result)[BRANCHES][MONTHS], const int branchIndex));
+int (*get_result_average(int (*result)[BRANCHES][MONTHS]))[BRANCHES][MONTHS];
+
+int (*get_average(int ofDepth, int throughDepth, int inDepth, int inIndex, int (*result)[BRANCHES][MONTHS]));
+
 int (*get_order_by_avg(int (*average)));
 int (*get_order_by_none(void));
 int rounds(double num);

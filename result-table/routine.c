@@ -9,11 +9,6 @@
 
 #include "routine.h"
 
-#define YEAR2018 2
-#define GWANAK 0
-#define GANGNAM 1
-#define MYEONGDONG 2
-#define DAELIM 3
 
 void start_main_memu_loop(void) {
     int selected;
@@ -23,16 +18,28 @@ void start_main_memu_loop(void) {
         printf("\n");
         rewind(stdin); /* flush */
 
+        char **branches = get_branches();
+        int (*result)[BRANCHES][MONTHS] = get_result();
+        int (*resultAvg)[BRANCHES][MONTHS] = get_result_average(result);
+        int *average;
+        int *order;
+        
         int exitFromSubMenu = 0;
         switch (selected) {
             case 1:
-                print_result("2018년 실적별 통계", get_branches(), get_result()[YEAR2018], get_average(get_result()[YEAR2018]), get_order_by_avg(get_average(get_result()[YEAR2018])));
+                average = get_average(BRANCH_DEPTH, MONTH_DEPTH, YEAR_DEPTH, YEAR2018, result);
+                order = get_order_by_avg(average);
+                print_result("2018년 실적별 통계", branches, result[YEAR2018], average, order);
                 break;
             case 2:
-                print_result("2018년 지점별 통계", get_branches(), get_result()[YEAR2018], get_average(get_result()[YEAR2018]), get_order_by_none());
+                average = get_average(BRANCH_DEPTH, MONTH_DEPTH, YEAR_DEPTH, YEAR2018, result);
+                order = get_order_by_none();
+                print_result("2018년 지점별 통계", branches, result[YEAR2018], average, order);
                 break;
             case 3:
-                print_result("3년간 평균 실적별 통계", get_branches(), get_result_average(get_result()), get_average(get_result_average(get_result())), get_order_by_avg(get_average(get_result_average(get_result()))));
+                average = get_average(BRANCH_DEPTH, MONTH_DEPTH, YEAR_DEPTH, YEARAVG, resultAvg);
+                order = get_order_by_avg(average);
+                print_result("3년간 평균 실적별 통계", branches, resultAvg[YEARAVG], average, order);
                 break;
             case 4:
                 start_sub_menu_loop();
@@ -67,18 +74,32 @@ void start_sub_menu_loop() {
         rewind(stdin); /* flush */
         printf("\n");
 
+        char **branches = get_branches();
+        char **years = get_years();
+        int (*result)[BRANCHES][MONTHS] = get_result();
+        int *averageOfMonth;
+        int *averageOfYear;
+
         switch (selected) {
             case 1:
-                print_result_of_branch(get_branches()[GWANAK], get_years(), get_result(), GWANAK, get_average_of_months_of_branch(get_result(), GWANAK), get_average_of_years_of_branch(get_result(), GWANAK));
+                averageOfMonth = get_average(MONTH_DEPTH, YEAR_DEPTH, BRANCH_DEPTH, GWANAK, result);
+                averageOfYear = get_average(YEAR_DEPTH, MONTH_DEPTH, BRANCH_DEPTH, GWANAK, result);
+                print_result_of_branch(branches[GWANAK], years, result, GWANAK, averageOfMonth, averageOfYear);
                 break;
             case 2:
-                print_result_of_branch(get_branches()[GANGNAM], get_years(), get_result(), GANGNAM, get_average_of_months_of_branch(get_result(), GANGNAM), get_average_of_years_of_branch(get_result(), GANGNAM));
+                averageOfMonth = get_average(MONTH_DEPTH, YEAR_DEPTH, BRANCH_DEPTH, GWANAK, result);
+                averageOfYear = get_average(YEAR_DEPTH, MONTH_DEPTH, BRANCH_DEPTH, GWANAK, result);
+                print_result_of_branch(branches[GWANAK], years, result, GWANAK, averageOfMonth, averageOfYear);
                 break;
             case 3:
-                print_result_of_branch(get_branches()[MYEONGDONG], get_years(), get_result(), MYEONGDONG, get_average_of_months_of_branch(get_result(), MYEONGDONG), get_average_of_years_of_branch(get_result(), MYEONGDONG));
+                averageOfMonth = get_average(MONTH_DEPTH, YEAR_DEPTH, BRANCH_DEPTH, GWANAK, result);
+                averageOfYear = get_average(YEAR_DEPTH, MONTH_DEPTH, BRANCH_DEPTH, GWANAK, result);
+                print_result_of_branch(branches[GWANAK], years, result, GWANAK, averageOfMonth, averageOfYear);
                 break;
             case 4:
-                print_result_of_branch(get_branches()[DAELIM], get_years(), get_result(), DAELIM, get_average_of_months_of_branch(get_result(), DAELIM), get_average_of_years_of_branch(get_result(), DAELIM));
+                averageOfMonth = get_average(MONTH_DEPTH, YEAR_DEPTH, BRANCH_DEPTH, GWANAK, result);
+                averageOfYear = get_average(YEAR_DEPTH, MONTH_DEPTH, BRANCH_DEPTH, GWANAK, result);
+                print_result_of_branch(branches[GWANAK], years, result, GWANAK, averageOfMonth, averageOfYear);
                 break;
             case 9:
                 printf("저는 주안에 살아요!\n");

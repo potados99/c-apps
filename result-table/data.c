@@ -40,8 +40,8 @@ int (*get_result(void))[BRANCHES][MONTHS] {
     return result;
 }
 
-int (*get_result_average(int (*result)[BRANCHES][MONTHS]))[MONTHS] {
-    static int avgResult[BRANCHES][MONTHS];
+int (*get_result_average(int (*result)[BRANCHES][MONTHS]))[BRANCHES][MONTHS] {
+    static int avgResult[1][BRANCHES][MONTHS];
     
     unsigned short i = 0;
     unsigned short j = 0;
@@ -54,63 +54,88 @@ int (*get_result_average(int (*result)[BRANCHES][MONTHS]))[MONTHS] {
             for (k = 0; k < YEARS; k ++) {
                 count += result[k][i][j];
             }
-            avgResult[i][j] = rounds(count/YEARS);
+            avgResult[0][i][j] = rounds(count/YEARS);
         }
     }
     return avgResult;
 }
 
+int (*get_average(int ofDepth, int throughDepth, int inDepth, int inIndex, int (*result)[BRANCHES][MONTHS])) {
+    static int average[POSSIBLE_MAX_LENGTH];
+     
+    double total = 0;
 
-int (*get_average(int (*resultOfYear)[MONTHS])) {
-    static int average[BRANCHES];
+    int first = 0;
+    int second = 0;
     
-    double count = 0;
-    unsigned short i = 0;
-    unsigned short j = 0;
+    int firstRange = 0;
+    int secondRange = 0;
     
-    for (i = 0; i < BRANCHES; i ++) {
-        count = 0;
-        for (j = 0; j < MONTHS; j ++) {
-            count += resultOfYear[i][j];
-        }
-        average[i] = rounds(count/MONTHS);
+    int *pfirst = NULL;
+    int *psecond = NULL;
+    int *pthird = NULL;
+
+    switch (ofDepth) {
+        case YEAR_DEPTH:
+            pfirst = &first;
+            firstRange = YEARS;
+            break;
+        case BRANCH_DEPTH:
+            psecond = &first;
+            firstRange = BRANCHES;
+            break;
+        case MONTH_DEPTH:
+            pthird = &first;
+            firstRange = MONTHS;
+            break;
+            
+        default:
+            break;
     }
+    
+    switch (throughDepth) {
+        case YEAR_DEPTH:
+            pfirst = &second;
+            secondRange = YEARS;
+
+            break;
+        case MONTH_DEPTH:
+            pthird = &second;
+            secondRange = MONTHS;
+            break;
+            
+        default:
+            break;
+    }
+    
+    switch (inDepth) {
+        case YEAR_DEPTH:
+            pfirst = &inIndex;
+
+            break;
+        case BRANCH_DEPTH:
+            psecond = &inIndex;
+            break;
+            
+        default:
+            break;
+    }
+    
+    for (first = 0; first < firstRange; first ++) {
+        total = 0;
+        for (second = 0; second < secondRange; second ++) {
+            total += result[*pfirst][*psecond][*pthird];
+            }
+        average[first] = rounds(total/secondRange);
+    }
+
     return average;
 }
 
-int (*get_average_of_months_of_branch(int (*result)[BRANCHES][MONTHS], const int branchIndex)) {
-    static int average[YEARS];
-    
-    double count;
-    unsigned short i = 0;
-    unsigned short j = 0;
 
-    for (i = 0; i < YEARS; i ++) {
-        count = 0;
-        for ( j = 0; j < MONTHS; j ++) {
-            count += result[i][branchIndex][j];
-        }
-        average[i] = rounds(count/MONTHS);
-    }
-    return average;
-}
 
-int (*get_average_of_years_of_branch(int (*result)[BRANCHES][MONTHS], const int branchIndex)) {
-    static int average[MONTHS];
-    
-    double count;
-    unsigned short i = 0;
-    unsigned short j = 0;
-    
-    for (i = 0; i < MONTHS; i ++) {
-        count = 0;
-        for ( j = 0; j < YEARS; j ++) {
-            count += result[j][branchIndex][i];
-        }
-        average[i] = rounds(count/YEARS);
-    }
-    return average;
-}
+
+
 
 int (*get_order_by_avg(int (*average))) {
     static int order[BRANCHES];
