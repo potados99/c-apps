@@ -81,16 +81,6 @@ void symmetry_opposite_diagonal(int **original, int **symmetry, int row_size, in
     }
 }
 
-/*
- [0][0] = [2][2]
- [0][1] = [1][2]
- [1][0] = [2][1]
- 
- [i][j] = [size-j][size-i]
- 
- 
-*/
-
 void error(const char *message) {
     fprintf(stderr, "%s", message);
 }
