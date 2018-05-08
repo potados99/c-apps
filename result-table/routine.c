@@ -9,7 +9,6 @@
 
 #include "routine.h"
 
-
 void start_main_memu_loop(void) {
     int selected;
     display_main_menu();
