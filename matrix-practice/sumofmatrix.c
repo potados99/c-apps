@@ -11,7 +11,7 @@
 void do_practice_3() {
     int **a = get_matrix(3, 3, FILL_RANDOM);
     int **b = get_matrix(3, 3, FILL_RANDOM);
-    int **sum = get_matrix(3, 3, EMPTY);
+    int **sum = get_matrix(3, 3, FILL_NONE);
     
     add_matrix(a, b, sum, 3, 3);
     

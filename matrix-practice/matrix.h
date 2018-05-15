@@ -17,7 +17,7 @@
 #define FALSE 0
 
 #define FILL_RANDOM 1
-#define EMPTY 0
+#define FILL_NONE 0
 
 int **get_matrix(int rows, int columns, int fillRandom);
 

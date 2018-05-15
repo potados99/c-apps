@@ -10,7 +10,7 @@
 
 void do_assignment() {
     int **matrix = get_matrix(SQUARE_SIZE, SQUARE_SIZE, FILL_RANDOM);
-    int **symmetry = get_matrix(SQUARE_SIZE, SQUARE_SIZE, EMPTY);
+    int **symmetry = get_matrix(SQUARE_SIZE, SQUARE_SIZE, FILL_NONE);
     
     puts("Original matrix");
     print_matrix(matrix, SQUARE_SIZE, SQUARE_SIZE);
