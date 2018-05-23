@@ -1,6 +1,6 @@
 //
 //  splitstring.h
-//  rand-test
+//  string-practice
 //
 //  Created by POTADOS on 2018. 4. 18..
 //  Copyright © 2018년 POTADOS. All rights reserved.
