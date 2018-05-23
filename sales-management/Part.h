@@ -13,8 +13,10 @@
 #include <stdlib.h>
 #include "IO.h"
 
-
-// Struct declaration
+///
+/// struct _Part
+/// Purpose: to store properties of part
+///
 typedef struct _Part{
     int partNum;
     char *partName;
@@ -23,6 +25,10 @@ typedef struct _Part{
     int salesCount;
 } _Part;
 
+///
+/// Part
+/// Purpose: to use as a reference of struct _Part
+///
 typedef _Part * Part;
 
 void destructor(Part this);

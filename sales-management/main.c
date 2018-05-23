@@ -13,7 +13,7 @@ int main(int argc, const char * argv[]) {
     
     Part a = new_Part(1001, "Hard disk", "This", 135000, 0);
     Part b = new_Part(1002, "CPU", "is", 235000, 0);
-    Part c = new_Part(1003, "Main board", "fxxking", 122000, 0);
+    Part c = new_Part(1003, "Main board", "very", 122000, 0);
     Part d = new_Part(1004, "Monitor", "awesome.", 260000, 0);
     Part e = new_Part(1005, "DVD-RW", "Isn't it?", 73500, 0);
 
@@ -22,6 +22,5 @@ int main(int argc, const char * argv[]) {
     
     print_sales(parts, 5);
     
-
     return 0;
 }
