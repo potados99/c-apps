@@ -1,13 +1,13 @@
 //
-//  IO.h
+//  ioutil.h
 //  sales-management
 //
 //  Created by POTADOS on 2018. 5. 24..
 //  Copyright © 2018년 POTADOS. All rights reserved.
 //
 
-#ifndef IO_h
-#define IO_h
+#ifndef ioutil_h
+#define ioutil_h
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -26,4 +26,6 @@ void print_blank(const unsigned int length);
 
 void itos(char * str, int i);
 
-#endif /* IO_h */
+void wait_for_enter(void);
+
+#endif /* ioutil_h */

@@ -1,12 +1,12 @@
 //
-//  IO.c
+//  ioutil.c
 //  sales-management
 //
 //  Created by POTADOS on 2018. 5. 24..
 //  Copyright © 2018년 POTADOS. All rights reserved.
 //
 
-#include "IO.h"
+#include "ioutil.h"
 
 ///
 /// get_input_string
@@ -66,4 +66,13 @@ void print_blank(const unsigned int length) {
 ///
 void itos(char *str, int i) {
     sprintf(str, "%d", i);
+}
+
+
+
+void wait_for_enter() {
+	char input;
+	while ((input = getchar()) != 45) {
+		printf("Press enter\n");
+	}
 }
