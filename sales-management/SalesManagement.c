@@ -18,7 +18,7 @@ SalesList new_SalesList(void) {
 }
 
 
-void add_new_part_from_input(SalesList list) {
+void create_new_part_from_input(SalesList list) {
     
     ///
     /// Purpose: to get a
@@ -46,13 +46,13 @@ void add_new_part_from_input(SalesList list) {
     sales = get_input_number();
     
     Part newPart = new_Part(partNumber, partName, specification, price, sales);
-    add_to_sales_list(list, newPart);
+    add_to_list(list, newPart);
     
     puts("\nAdded: ");
     print_parts(list->parts, list->numberOfParts, LIST_LAST);
 }
 
-void add_to_sales_list(SalesList list, Part part) {
+void add_to_list(SalesList list, Part part) {
     list->parts = (Part *)realloc(list->parts, sizeof(Part) * (++ list->numberOfParts));
     list->parts[list->numberOfParts - 1] = part;
 }
@@ -76,7 +76,7 @@ void start_main_loop(SalesList list) {
 				break;
 			case 2:
                 puts("");
-                add_new_part_from_input(list);
+                create_new_part_from_input(list);
 				break;
 			case 3:
                 puts("");

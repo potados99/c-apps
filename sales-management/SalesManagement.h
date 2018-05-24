@@ -26,8 +26,8 @@ typedef _SalesList * SalesList;
 
 SalesList new_SalesList(void);
 
-void add_new_part_from_input(SalesList list);
-void add_to_sales_list(SalesList list, Part part);
+void create_new_part_from_input(SalesList list);
+void add_to_list(SalesList list, Part part);
 
 void start_main_loop(SalesList list);
 void start_edit_loop(SalesList list);
