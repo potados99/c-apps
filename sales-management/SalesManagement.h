@@ -26,21 +26,16 @@ typedef _SalesList * SalesList;
 
 SalesList new_SalesList(void);
 
+void add_new_part_from_input(SalesList list);
 void add_to_sales_list(SalesList list, Part part);
 
 void start_main_loop(SalesList list);
-
 void start_edit_loop(SalesList list);
 
 void display_main_menu(void);
-
 void display_edit_menu(void);
 
-void add_new_part_from_input(SalesList list);
-
-void print_parts(Part *parts, const unsigned int length, const unsigned int specificIndex);
-
 void print_sales_list(SalesList list);
-
+void print_parts(Part *parts, const unsigned int length, const unsigned int specificIndex);
 
 #endif /* SalesManagement_h */

@@ -17,6 +17,41 @@ SalesList new_SalesList(void) {
     return list;
 }
 
+
+void add_new_part_from_input(SalesList list) {
+    
+    ///
+    /// Purpose: to get a
+    ///
+    
+    int partNumber;
+    char *partName;
+    char *specification;
+    int price;
+    int sales;
+    
+    printf("Enter part number: ");
+    partNumber = get_input_number();
+    
+    printf("Enter part name: ");
+    partName = get_input_string();
+    
+    printf("Enter specification: ");
+    specification = get_input_string();
+    
+    printf("Enter price: ");
+    price = get_input_number();
+    
+    printf("Enter sales: ");
+    sales = get_input_number();
+    
+    Part newPart = new_Part(partNumber, partName, specification, price, sales);
+    add_to_sales_list(list, newPart);
+    
+    puts("\nAdded: ");
+    print_parts(list->parts, list->numberOfParts, LIST_LAST);
+}
+
 void add_to_sales_list(SalesList list, Part part) {
     list->parts = (Part *)realloc(list->parts, sizeof(Part) * (++ list->numberOfParts));
     list->parts[list->numberOfParts - 1] = part;
@@ -48,7 +83,6 @@ void start_main_loop(SalesList list) {
                 print_sales_list(list);
                 puts("");
                 start_edit_loop(list);
-                puts("");
                 escapedFromEdit = True;
 				break;
 			default:
@@ -72,7 +106,6 @@ void start_edit_loop(SalesList list) {
     
     puts("");
     print_parts(list->parts, list->numberOfParts, targetIndex);
-    puts("\nCorrect?");
     wait_for_enter();
     
     display_edit_menu();
@@ -88,29 +121,39 @@ void start_edit_loop(SalesList list) {
         rewind(stdin);
         
         breakMe = 0;
+        puts("");
         switch (selected) {
             case 1:
-                printf("\nEnter new product number: ");
+                printf("Enter new product number: ");
                 part->partNum = get_input_number();
                 printf("The new product number of %s is %d\n\n", part->partName, part->partNum);
                 print_parts(list->parts, list->numberOfParts, targetIndex);
                 break;
             case 2:
                 printf("Enter new product name: ");
+                char *oldName = part->partName;
                 part->partName = get_input_string();
+                printf("The new product name of %s is %s\n\n", oldName, part->partName);
+                print_parts(list->parts, list->numberOfParts, targetIndex);
                 break;
             case 3:
                 printf("Enter new specification: ");
                 part->specification = get_input_string();
+                printf("The new specification of %s is %s\n\n", part->partName, part->specification);
+                print_parts(list->parts, list->numberOfParts, targetIndex);
                 break;
             case 4:
                 printf("Enter new price: ");
                 part->price = get_input_number();
+                printf("The new price of %s is %d\n\n", part->partName, part->price);
+                print_parts(list->parts, list->numberOfParts, targetIndex);
                 part->revenue = part->price * part->sales;
                 break;
             case 5:
                 printf("Enter new sales: ");
                 part->sales = get_input_number();
+                printf("The new sales of %s is %d\n\n", part->partName, part->sales);
+                print_parts(list->parts, list->numberOfParts, targetIndex);
                 part->revenue = part->price * part->sales;
                 break;
             case 6:
@@ -151,47 +194,20 @@ void display_edit_menu() {
     printf("> ");
 }
 
-void add_new_part_from_input(SalesList list) {
-    int partNumber;
-    char *partName;
-    char *specification;
-    int price;
-    int sales;
-    
-    printf("Enter part number: ");
-    partNumber = get_input_number();
-    
-    printf("Enter part name: ");
-    partName = get_input_string();
-    
-    printf("Enter specification: ");
-    specification = get_input_string();
-    
-    printf("Enter price: ");
-    price = get_input_number();
-    
-    printf("Enter sales: ");
-    sales = get_input_number();
-    
-    Part newPart = new_Part(partNumber, partName, specification, price, sales);
-    add_to_sales_list(list, newPart);
-    
-    puts("\nAdded: ");
-    print_parts(list->parts, list->numberOfParts, LIST_LAST);
-}
-
 
 void print_sales_list(SalesList list) {
     print_parts(list->parts, list->numberOfParts, LIST_ALL);
 }
 
-///
-/// print_sales
-/// Purpose: to display sales data in form of table
-/// Description: I used print_string_with_blank function to get center-aligned table.
-///             Non-string variables are converted to string to be processed as an element of char * array.
-///
 void print_parts(Part *parts, const unsigned int length, const unsigned int specificIndex) {
+    
+    ///
+    /// print_sales
+    /// Purpose: to display sales data in form of table
+    /// Description: I used print_string_with_blank function to get center-aligned table.
+    ///             Non-string variables are converted to string to be processed as an element of char * array.
+    ///
+    
     if ((specificIndex > length - 1) && !(specificIndex & (LIST_LAST | LIST_ALL)))
         return;
     static char *colomnNames[_COLUMN_NUM] = {"Index", "Number", "Name", "Specification", "Price", "Sales", "Revenue"};

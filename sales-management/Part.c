@@ -9,15 +9,6 @@
 #include "Part.h"
 
 ///
-/// destructor
-/// Purpose: to free allocated objects
-///
-void destructor(Part this) {
-    free(this->partName);
-    free(this->specification);
-}
-
-///
 /// new_Part
 /// Purpose: to return newly instanciated struct _Part * newPart
 ///

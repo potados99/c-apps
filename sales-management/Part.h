@@ -32,8 +32,6 @@ typedef struct _Part{
 ///
 typedef _Part * Part;
 
-void destructor(Part this);
-
 Part new_Part(int partNum,
               char *partName,
               char *specification,
