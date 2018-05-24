@@ -12,14 +12,27 @@
 /// get_input_string
 /// Purpose: to get a dynamic-allocated string from user input
 ///
-char *get_input_string(void) {
+char *get_input_string() {
     char buffer[_BUFFER_SIZE];
+    rewind(stdin);
     fgets(buffer, _BUFFER_SIZE - 1, stdin);
+    rewind(stdin);
+
+    buffer[strlen(buffer) - 1] = '\0';
     
     char *string = (char *)malloc(sizeof(char) * strlen(buffer));
     strcpy(string, buffer);
     
     return string;
+}
+
+int get_input_number() {
+    char buffer[_BUFFER_SIZE];
+    rewind(stdin);
+    fgets(buffer, _BUFFER_SIZE - 1, stdin);
+    rewind(stdin);
+
+    return atoi(buffer);
 }
 
 ///
@@ -30,9 +43,9 @@ char *get_input_string(void) {
 void print_string_with_blank(char **string, int count , int * spaces) {
     for (int i = 0; i < count; ++ i) {
         printf("|");
-        print_blank((spaces[i] - (int)strlen(string[i])) / 2);
-        printf("%s", string[i]);
         print_blank((spaces[i] - (int)strlen(string[i]) - 1) / 2);
+        printf("%s", string[i]);
+        print_blank((spaces[i] - (int)strlen(string[i])) / 2);
     }   printf("|\n");
 }
 
@@ -43,7 +56,7 @@ void print_string_with_blank(char **string, int count , int * spaces) {
 ///
 void print_divider(int *spaces) {
     int count = 0;
-    for (unsigned register int i = 0; i < 5; ++ i) {
+    for (unsigned register int i = 0; i < _COLUMN_NUM; ++ i) {
         count += spaces[i];
     }
     for (unsigned register int i = 0; i < count + 1; ++ i) {
@@ -68,11 +81,9 @@ void itos(char *str, int i) {
     sprintf(str, "%d", i);
 }
 
-
-
 void wait_for_enter() {
-	char input;
-	while ((input = getchar()) != 45) {
-		printf("Press enter\n");
-	}
+    rewind(stdin);
+    printf("\nPress enter.\n");
+    while(getchar() != 10);/* CR */
+    rewind(stdin);
 }

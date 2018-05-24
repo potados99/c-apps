@@ -15,8 +15,16 @@
 
 #define _BUFFER_SIZE 64
 #define _SMALL_BUFFER_SIZE 16
+#define _COLUMN_NUM 7
+
+#define True 1
+#define False 0
+
+typedef int bool;
 
 char *get_input_string(void);
+
+int get_input_number(void);
 
 void print_string_with_blank(char **string, int count , int * spaces);
 

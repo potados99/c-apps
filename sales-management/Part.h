@@ -22,7 +22,8 @@ typedef struct _Part{
     char *partName;
     char *specification;
     int price;
-    int salesCount;
+    int sales;
+    int revenue;
 } _Part;
 
 ///
@@ -37,8 +38,7 @@ Part new_Part(int partNum,
               char *partName,
               char *specification,
               int price,
-              int salesCount);
+              int sales);
 
-void print_sales(Part *parts, const unsigned int length);
 
 #endif /* Part_h */
