@@ -17,11 +17,10 @@ SalesList new_SalesList(void) {
     return list;
 }
 
-
 void create_new_part_from_input(SalesList list) {
     
     ///
-    /// Purpose: to get a
+    ///
     ///
     
     int partNumber;
@@ -32,18 +31,38 @@ void create_new_part_from_input(SalesList list) {
     
     printf("Enter part number: ");
     partNumber = get_input_number();
+    if (partNumber == -99) {
+        puts("Canceled");
+        return;
+    }
     
     printf("Enter part name: ");
     partName = get_input_string();
+    if (atoi(partName) == -99) {
+        puts("Canceled");
+        return;
+    }
     
     printf("Enter specification: ");
     specification = get_input_string();
+    if (atoi(specification) == -99) {
+        puts("Canceled");
+        return;
+    }
     
     printf("Enter price: ");
     price = get_input_number();
+    if (price == -99) {
+        puts("Canceled");
+        return;
+    }
     
     printf("Enter sales: ");
     sales = get_input_number();
+    if (sales == -99) {
+        puts("Canceled");
+        return;
+    }
     
     Part newPart = new_Part(partNumber, partName, specification, price, sales);
     add_to_list(list, newPart);
@@ -68,24 +87,24 @@ void start_main_loop(SalesList list) {
 		rewind(stdin);
         
         bool escapedFromEdit = False;
-        
+       
+        puts("");
 		switch (selected) {
 			case 1:
-                puts("");
 				print_sales_list(list);
 				break;
 			case 2:
-                puts("");
                 create_new_part_from_input(list);
 				break;
 			case 3:
-                puts("");
                 print_sales_list(list);
                 puts("");
                 start_edit_loop(list);
                 escapedFromEdit = True;
 				break;
+                
 			default:
+                puts("Wrong input.");
 				break;
 		}
         if (! escapedFromEdit )
@@ -101,8 +120,8 @@ void start_edit_loop(SalesList list) {
     int targetIndex = 0;
     printf("Enter the index of part you want to edit: ");
     
-    while (((targetIndex = getchar() -'0') < 0) || (targetIndex >= list->numberOfParts))
-        printf("Enter proper index!");
+    while (((targetIndex = getchar() -'0') < 0) || (targetIndex >= list->numberOfParts) || (targetIndex + '0' == 10))
+        printf("**Enter proper index: ");
     
     puts("");
     print_parts(list->parts, list->numberOfParts, targetIndex);
@@ -146,21 +165,22 @@ void start_edit_loop(SalesList list) {
                 printf("Enter new price: ");
                 part->price = get_input_number();
                 printf("The new price of %s is %d\n\n", part->partName, part->price);
-                print_parts(list->parts, list->numberOfParts, targetIndex);
                 part->revenue = part->price * part->sales;
+                print_parts(list->parts, list->numberOfParts, targetIndex);
                 break;
             case 5:
                 printf("Enter new sales: ");
                 part->sales = get_input_number();
                 printf("The new sales of %s is %d\n\n", part->partName, part->sales);
-                print_parts(list->parts, list->numberOfParts, targetIndex);
                 part->revenue = part->price * part->sales;
+                print_parts(list->parts, list->numberOfParts, targetIndex);
                 break;
             case 6:
                 breakMe = 1;
                 break;
                 
             default:
+                puts("Wrong input.");
                 break;
         }
         if (breakMe)
@@ -242,11 +262,11 @@ void print_parts(Part *parts, const unsigned int length, const unsigned int spec
         char revenue[_SMALL_BUFFER_SIZE];
         
         /* int to string */
-        itos(index, i);
-        itos(num, parts[i]->partNum);
-        itos(price, parts[i]->price);
-        itos(sales, parts[i]->sales);
-        itos(revenue, parts[i]->revenue);
+        int_to_string(index, i);
+        int_to_string(num, parts[i]->partNum);
+        int_to_string_with_comma(price, parts[i]->price);
+        int_to_string_with_comma(sales, parts[i]->sales);
+        int_to_string_with_comma(revenue, parts[i]->revenue);
         
         char *partProperties[_COLUMN_NUM] = { index, num, parts[i]->partName, parts[i]->specification, price, sales, revenue };
         

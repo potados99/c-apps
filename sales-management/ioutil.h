@@ -32,7 +32,9 @@ void print_divider(int *spaces);
 
 void print_blank(const unsigned int length);
 
-void itos(char * str, int i);
+void int_to_string(char * _dest, const int num);
+
+void int_to_string_with_comma(char *_dest, const int num);
 
 void wait_for_enter(void);
 

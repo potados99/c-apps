@@ -22,7 +22,10 @@
                             - allocate size of struct _SalesList and catch the address.
                             - carry that. access the real value using the pointer.
  
- - How to divide codes into functions:
+ - How to group functions:  group by relavant data so that
+                            a data type and functions that handle the data are in one file.
+                            organize files hierarchically.
+                            avoid Cross-reference.
  
  [Source]
  main.c :               instanciate SalesList and start loop with that
