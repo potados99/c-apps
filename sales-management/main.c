@@ -14,7 +14,7 @@
  - What is this program: A sales management program
  - What does this program do: Save, process and display data of each product
  
- Implementation
+ [Implementation]
  - How to handle the data:  - store properties of product in a struct (struct _Part).
                             - store pointers of those structs in array (struct _Part * [] or struct _Part **).
                             - store the name of pointer array in a struct (struct _SalesList).
@@ -64,6 +64,8 @@ int main(int argc, const char * argv[]) {
     add_to_list(myList, new_Part(1005, "DVD-RW", "NONE", 73500, 0));
     
     start_main_loop(myList);
+    
+    destructor(myList);
     
     return 0;
 }

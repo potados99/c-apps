@@ -35,17 +35,24 @@ void _display_edit_menu() {
 }
 
 void _print_parts(Part *parts, const unsigned int length, const unsigned int specificIndex) {
-    
-    ///
-    /// print_sales
-    /// Purpose: to display sales data in form of table
-    /// Description: I used print_string_with_blank function to get center-aligned table.
-    ///             Non-string variables are converted to string to be processed as an element of char * array.
-    ///
+    /*
+     In:
+     [parts]: pointer of array of (Part).
+     [length]: length of that array.
+     [specificIndex]:
+     Out: none
+     Description: print all fields of element in array of (Part).
+     view data in form of table.
+     I used print_string_with_blank function to get center-aligned table.
+     Non-string variables are converted to string to be processed as an element of char * array.
+     */
     
     if ((specificIndex > length - 1) && !(specificIndex & (LIST_LAST | LIST_ALL)))
         return;
+    
+    /* constant variable setup */
     static const char *colomnNames[_COLUMN_NUM] = {"Index", "Number", "Name", "Specification", "Price", "Sales", "Revenue"};
+    
     enum {
         index = 8,
         number = 11,
@@ -55,37 +62,38 @@ void _print_parts(Part *parts, const unsigned int length, const unsigned int spe
         sales = 10,
         revenue = 15
     };
+    
     static const int spaces[_COLUMN_NUM] = {index, number, name, spec, price, sales, revenue};
     
-    println_string_cells_with_token(colomnNames, _COLUMN_NUM, ' ', spaces, '|'); /* print top row in center-aligned form */
+    // print first row
+    println_string_cells_with_token(colomnNames, _COLUMN_NUM, ' ', spaces, '|');
     println_token('=', _get_sum(spaces, 7) + 1); /* print a row for division */
     
+    /* range setup */
     int begin = 0;
     int end = 0;
     
     if (specificIndex == LIST_ALL) {
         begin = 0;
         end = length;
-    }
-    else if (specificIndex == LIST_LAST) {
+    } else if (specificIndex == LIST_LAST) {
         begin = length - 1;
         end = length;
-    }
-    else {
+    } else {
         begin = specificIndex;
         end = specificIndex + 1;
     }
     
+    /* convert all properties into string and print them */
     for (int i = begin; i < end; ++ i) {
-        
-        /* buffers to contain the converted variables */
+        // buffers to contain the converted variables
         char index[_SMALL_BUFFER_SIZE];
         char num[_SMALL_BUFFER_SIZE];
         char price[_SMALL_BUFFER_SIZE];
         char sales[_SMALL_BUFFER_SIZE];
         char revenue[_SMALL_BUFFER_SIZE];
         
-        /* int to string */
+        // int to string
         _int_to_string(index, i);
         _int_to_string(num, parts[i]->partNum);
         _int_to_string_with_comma(price, parts[i]->price);
@@ -94,11 +102,13 @@ void _print_parts(Part *parts, const unsigned int length, const unsigned int spe
         
         const char *partProperties[_COLUMN_NUM] = { index, num, parts[i]->partName, parts[i]->specification, price, sales, revenue };
         
+        // print all properties center-aligned, covered and divided by '|'
         println_string_cells_with_token(partProperties, _COLUMN_NUM, ' ', spaces, '|');
     }
+    
+    /* optional thing to do when printing all */
     if (specificIndex == LIST_ALL) {
-        // print total
-        println_token('=', _get_sum(spaces, 7) + 1); /* print a row for division */
+        println_token('=', _get_sum(spaces, 7) + 1);
         char revenueTotal[_SMALL_BUFFER_SIZE];
         
         unsigned int revCount = 0;
@@ -108,10 +118,10 @@ void _print_parts(Part *parts, const unsigned int length, const unsigned int spe
         
         _int_to_string_with_comma(revenueTotal, revCount);
         const char *partProperties[_COLUMN_NUM] = {"Total", "", "", "", "", "", revenueTotal};
-        println_string_cells_with_token(partProperties, _COLUMN_NUM, ' ', spaces, '|');
         
+        // print total revenue
+        println_string_cells_with_token(partProperties, _COLUMN_NUM, ' ', spaces, '|');
     }
-    
 }
 
 
@@ -124,43 +134,66 @@ SalesList new_SalesList(void) {
     return list;
 }
 
+void destructor(SalesList list) {
+    /*
+     In: [list]
+     Out: none
+     Description: free allocated memmory
+     */
+    
+    /*
+     SalesList list:
+     int numberOfParts
+     Part *parts:
+     Part part:
+     char *partName
+     char *specification
+     ...
+     */
+    
+    for (register unsigned int i = 0; i < list->numberOfParts; ++ i) {
+        free(list->parts[i]->partName);
+        free(list->parts[i]->specification);
+    }
+}
+
 void start_main_loop(SalesList list) {
     _display_main_menu();
     
-	int selected = 0;
-	rewind(stdin);
-
-	while ((selected = getchar() - '0') != 4) {
-		rewind(stdin);
+    int selected = 0;
+    rewind(stdin);
+    
+    while ((selected = getchar() - '0') != 4) {
+        rewind(stdin);
         
         bool escapedFromEdit = False;
-       
+        
         puts("");
-		switch (selected) {
-			case 1:
-				print_sales_list(list);
-				break;
-			case 2:
+        switch (selected) {
+            case 1:
+                print_sales_list(list);
+                break;
+            case 2:
                 create_new_part_from_input(list);
-				break;
-			case 3:
+                break;
+            case 3:
                 print_sales_list(list);
                 puts("");
                 start_edit_loop(list);
                 escapedFromEdit = True;
-				break;
+                break;
                 
-			default:
+            default:
                 puts("Wrong input.");
-				break;
-		}
+                break;
+        }
         if (! escapedFromEdit )
             wait_for_enter();
         
         rewind(stdin);
         _display_main_menu();
-	}
-	printf("Exiting program.\n");
+    }
+    printf("Exiting program.\n");
 }
 
 void start_edit_loop(SalesList list) {
@@ -202,7 +235,7 @@ void start_edit_loop(SalesList list) {
                     puts("Canceled");
                     return;
                 }
-                    
+                
                 printf("The new product number of %s is %d\n\n", part->partName, part->partNum);
                 _print_parts(list->parts, list->numberOfParts, targetIndex);
                 break;
@@ -229,7 +262,7 @@ void start_edit_loop(SalesList list) {
                     puts("Canceled");
                     return;
                 }
-
+                
                 printf("The new specification of %s is %s\n\n", part->partName, part->specification);
                 _print_parts(list->parts, list->numberOfParts, targetIndex);
                 break;
@@ -242,7 +275,7 @@ void start_edit_loop(SalesList list) {
                     puts("Canceled");
                     return;
                 }
-
+                
                 printf("The new price of %s is %d\n\n", part->partName, part->price);
                 part->revenue = part->price * part->sales;
                 _print_parts(list->parts, list->numberOfParts, targetIndex);
@@ -256,7 +289,7 @@ void start_edit_loop(SalesList list) {
                     puts("Canceled");
                     return;
                 }
-
+                
                 printf("The new sales of %s is %d\n\n", part->partName, part->sales);
                 part->revenue = part->price * part->sales;
                 _print_parts(list->parts, list->numberOfParts, targetIndex);
@@ -279,7 +312,6 @@ void start_edit_loop(SalesList list) {
 }
 
 void create_new_part_from_input(SalesList list) {
-    
     int partNumber;
     char *partName;
     char *specification;
@@ -336,4 +368,3 @@ void add_to_list(SalesList list, Part part) {
 void print_sales_list(SalesList list) {
     _print_parts(list->parts, list->numberOfParts, LIST_ALL);
 }
-

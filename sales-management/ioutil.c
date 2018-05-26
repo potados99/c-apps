@@ -8,29 +8,41 @@
 
 #include "ioutil.h"
 
-///
-/// itos
-/// Purpose: to convert integer to string
-///
+
 void _int_to_string(char *dest, const int num) {
+    /*
+     In: [num]
+     Out: [dest]
+     Description: convert integer to string
+     */
+    
     sprintf(dest, "%d", num);
 }
 
 void _int_to_string_with_comma(char *dest, const int num) {
-    char buffer[_SMALL_BUFFER_SIZE];
-    sprintf(buffer, "%d", num);
+    /*
+     In: [num]
+     Out: [dest]
+     Description: convert integer to string with comma inserted
+     */
     
     /*
+     state table:
+     
      1 2 , 3 4 5 , 6 7 8 (8 digits)
      
      val    1   2   3   4   5   6   7   8
      index  0   1   2   3   4   5   6   7
      i      0   1
      j              2   3   4   5   6   7
-     comma n   n   y   n   n   y
+     comma? n   n   y   n   n   y
      
      if ((j % 3) == (strlen(buffer) % 3))
+        // insert comma before number
      */
+    
+    char buffer[_SMALL_BUFFER_SIZE];
+    sprintf(buffer, "%d", num);
     
     unsigned int index = 0;
     unsigned int length = (unsigned int)strlen(buffer);
@@ -38,7 +50,7 @@ void _int_to_string_with_comma(char *dest, const int num) {
     bool noFirstComma = False;
     if (! rest)
         noFirstComma = True;
-    
+
     for (register unsigned int i = 0; i < rest; ++ i) {
         dest[index ++] = buffer[i];
     }
@@ -54,6 +66,12 @@ void _int_to_string_with_comma(char *dest, const int num) {
 }
 
 int _get_sum(const int *nums, const int count) {
+    /*
+     In: [num], [count]
+     Out: [sum]
+     Description: add every number in nums to sum
+     */
+    
     int sum = 0;
     for (unsigned register int i = 0; i < count; ++ i) {
         sum += nums[i];
@@ -62,11 +80,14 @@ int _get_sum(const int *nums, const int count) {
 }
 
 
-///
-/// get_input_string
-/// Purpose: to get a dynamic-allocated string from user input
-///
 char *get_input_string() {
+    /*
+     In: none
+     Out: [string]
+     Description: get a dynamic-allocated string from user input.
+     reject when it gets wrong input.
+     */
+    
     char buffer[_BUFFER_SIZE];
     rewind(stdin);
     fgets(buffer, _BUFFER_SIZE - 1, stdin);
@@ -87,6 +108,13 @@ char *get_input_string() {
 }
 
 int get_input_number() {
+    /*
+     In: none
+     Out: atoi(buffer)
+     Description: get a number from user input.
+     reject when it gets wrong input.
+     */
+    
     char buffer[_BUFFER_SIZE];
     rewind(stdin);
     fgets(buffer, _BUFFER_SIZE - 1, stdin);
@@ -102,12 +130,21 @@ int get_input_number() {
     return atoi(buffer);
 }
 
-///
-/// print_string_with_blank
-/// Purpose: to print string center-aligned in a cell, divied by '|' character
-/// Description: unless the length of string does not over the size of that cell, the size of cell doesn't change
-///
 void println_string_cells_with_token(const char **string, const int stringCount , const char token, const int *tokenLength, const char border) {
+    /*
+     In:
+     [string]: pointer of array of (char *) type string
+     [stringCount]: number of string
+     [token]: (char) type character. used to fill empty space
+     [tokenLengths]: pointer of array of (int) type number.
+     each element indicates the length of each cell
+     [border]: (char) type character. printed at head and tail.
+     Out: none
+     Description: print strings in horizontal-oriented cells which are divided by [border].
+     in each cell, string is center-aligned.
+     empty space in the cell is filled with [token]
+     */
+    
     for (int i = 0; i < stringCount; ++ i) {
         printf("%c", border);
         
@@ -129,7 +166,20 @@ void println_string_with_token(const char *string, const char token, const int t
 }
 
 void print_string_with_token(const char *string, const char token, const int tokenLength, const char border) {
+    /*
+     In:
+     [string]: pointer of (char *) type string
+     [token]: (char) type character. used to fill empty space
+     [tokenLength]: pointer of (int) type number. the length of cell.
+     [border]: (char) type character. printed at head and tail.
+     Out: none
+     Description: print string in a cell which is covered by [border].
+     in that cell, string is center-aligned.
+     empty space in the cell is filled with [token]
+     */
+    
     printf("%c", border);
+    
     if (string) {
         print_token(token, (tokenLength - (int)strlen(string) - 1) / 2);
         printf("%s", string);
@@ -138,27 +188,34 @@ void print_string_with_token(const char *string, const char token, const int tok
     else {
         print_token(token, tokenLength - 1);
     }
+    
     printf("%c", border);
 }
 
-
-
-///
-/// print_black
-/// Purpose: just to print blank character for (length) times
-///
 void println_token(const char token, const unsigned int length) {
     print_token(token, length);
     puts("");
 }
 
 void print_token(const char token, const unsigned int length) {
+    /*
+     In: [token], [length]
+     Out: none
+     Description: print [length] of tokens
+     */
+    
     for (unsigned register int i = 0; i < length; ++ i)
         printf("%c", token);
 }
 
 
 void wait_for_enter() {
+    /*
+     In: none
+     Out: none
+     Description: ask user for input until it gets '\n'
+     */
+    
     rewind(stdin);
     printf("\nPress enter.\n");
     while(getchar() != 10);/* CR */

@@ -35,6 +35,7 @@ void _print_parts(Part *parts, const unsigned int length, const unsigned int spe
 
 /* public */
 SalesList new_SalesList(void);
+void destructor(SalesList list);
 void start_main_loop(SalesList list);
 void start_edit_loop(SalesList list);
 void create_new_part_from_input(SalesList list);
