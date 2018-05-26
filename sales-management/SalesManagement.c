@@ -15,9 +15,9 @@
 void _display_main_menu() {
     static const int lineLength = 25;
     println_string_with_token(" Main menu ", '=', lineLength, '|');
-    println_string_with_token("1. Show sales data", ' ', lineLength, '|');
-    println_string_with_token("2. Add new part   ", ' ', lineLength, '|');
-    println_string_with_token("3. Edit part info ", ' ', lineLength, '|');
+    println_string_with_token("1. SHOW sales data", ' ', lineLength, '|');
+    println_string_with_token("2. ADD new part   ", ' ', lineLength, '|');
+    println_string_with_token("3. EDIT part info ", ' ', lineLength, '|');
     println_string_with_token(NULL, '-', lineLength, '|');
     println_string_with_token("4. Exit           ", ' ', lineLength, '|');
     println_string_with_token(NULL, '=', lineLength, '|');

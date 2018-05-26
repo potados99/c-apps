@@ -58,6 +58,14 @@
 */
 
 int main(int argc, const char * argv[]) {
+#ifdef _MSC_VER
+    puts("> Programming assignment #3");
+    puts("> Sales-management\n");
+
+    puts("> Author info:");
+    puts("> ID: 201701562");
+    puts("> Name: Byeong Jun Song\n");
+#endif
     
     SalesList myList = new_SalesList();
 
@@ -71,6 +79,9 @@ int main(int argc, const char * argv[]) {
     
     destructor(myList);
     
+#ifdef _MSC_VER
+    getchar();
+#endif
     return 0;
 }
 
