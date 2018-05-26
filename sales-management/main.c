@@ -55,10 +55,13 @@
                         - print string in a cell of table with
                           horizontally center-aligned form
                         - ask for user input until 'Enter' is pressed
+ 
+ [Notes]
+ - No non ascii character to avoid encoding issue in VS
 */
 
 int main(int argc, const char * argv[]) {
-#ifdef _MSC_VER
+#if defined _MSC_VER
     puts("> Programming assignment #3");
     puts("> Sales-management\n");
 
@@ -86,6 +89,7 @@ int main(int argc, const char * argv[]) {
 #ifdef _MSC_VER
     puts("Program ended.");
     getchar();
+    puts("Disposing console.");
 #endif
     return 0;
 }
