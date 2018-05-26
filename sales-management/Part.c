@@ -5,13 +5,13 @@
 //  Created by POTADOS on 2018. 5. 24..
 //  Copyright © 2018 POTADOS. All rights reserved.
 //
+//  Author
+//  ID: 201701562
+//  Name: Byeong Jun Song
+//
 
 #include "Part.h"
 
-///
-/// new_Part
-/// Purpose: to return newly instanciated struct _Part * newPart
-///
 Part new_Part(int partNum,
               char *partName,
               char *specification,
@@ -29,4 +29,8 @@ Part new_Part(int partNum,
     return newPart;
 }
 
-
+//
+//  Author
+//  ID: 201701562
+//  Name: Byeong Jun Song
+//

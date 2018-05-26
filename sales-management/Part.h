@@ -5,6 +5,10 @@
 //  Created by POTADOS on 2018. 5. 24..
 //  Copyright © 2018 POTADOS. All rights reserved.
 //
+//  Author
+//  ID: 201701562
+//  Name: Byeong Jun Song
+//
 
 #ifndef Part_h
 #define Part_h
@@ -41,3 +45,9 @@ Part new_Part(int partNum,
               int sales);
 
 #endif /* Part_h */
+
+//
+//  Author
+//  ID: 201701562
+//  Name: Byeong Jun Song
+//

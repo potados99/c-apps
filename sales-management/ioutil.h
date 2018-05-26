@@ -5,6 +5,10 @@
 //  Created by POTADOS on 2018. 5. 24..
 //  Copyright © 2018 POTADOS. All rights reserved.
 //
+//  Author
+//  ID: 201701562
+//  Name: Byeong Jun Song
+//
 
 #ifndef ioutil_h
 #define ioutil_h
@@ -31,6 +35,8 @@ int _get_sum(const int *nums, const int count);
 char *get_input_string(void);
 int get_input_number(void);
 
+char *allocate_string(const char *buffer);
+
 void println_string_cells_with_token(const char **string,
                                      const int stringCount ,
                                      const char token,
@@ -53,3 +59,9 @@ void print_token(const char token, const unsigned int length);
 void wait_for_enter(void);
 
 #endif /* ioutil_h */
+
+//
+//  Author
+//  ID: 201701562
+//  Name: Byeong Jun Song
+//

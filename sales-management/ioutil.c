@@ -5,6 +5,10 @@
 //  Created by POTADOS on 2018. 5. 24..
 //  Copyright © 2018년 POTADOS. All rights reserved.
 //
+//  Author
+//  ID: 201701562
+//  Name: Byeong Jun Song
+//
 
 #include "ioutil.h"
 
@@ -130,6 +134,19 @@ int get_input_number() {
     return atoi(buffer);
 }
 
+char *allocate_string(const char *buffer) {
+    /*
+     In:
+     [buffer]: array of char
+     Out:
+     [string]: pointer of allocated memmory
+     Description: allocate memmory for string
+     */
+    char *string = (char *)malloc(sizeof(char) * strlen(buffer));
+    strcpy(string, buffer);
+    return string;
+}
+
 void println_string_cells_with_token(const char **string, const int stringCount , const char token, const int *tokenLength, const char border) {
     /*
      In:
@@ -221,3 +238,9 @@ void wait_for_enter() {
     while(getchar() != 10);/* CR */
     rewind(stdin);
 }
+
+//
+//  Author
+//  ID: 201701562
+//  Name: Byeong Jun Song
+//

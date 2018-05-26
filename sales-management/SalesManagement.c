@@ -5,6 +5,10 @@
 //  Created by POTADOS on 2018. 5. 24..
 //  Copyright © 2018 POTADOS. All rights reserved.
 //
+//  Author
+//  ID: 201701562
+//  Name: Byeong Jun Song
+//
 
 #include "SalesManagement.h"
 
@@ -368,3 +372,9 @@ void add_to_list(SalesList list, Part part) {
 void print_sales_list(SalesList list) {
     _print_parts(list->parts, list->numberOfParts, LIST_ALL);
 }
+
+//
+//  Author
+//  ID: 201701562
+//  Name: Byeong Jun Song
+//

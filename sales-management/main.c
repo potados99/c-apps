@@ -5,6 +5,10 @@
 //  Created by POTADOS on 2018. 5. 24..
 //  Copyright © 2018 POTADOS. All rights reserved.
 //
+//  Author
+//  ID: 201701562
+//  Name: Byeong Jun Song
+//
 
 #include "SalesManagement.h"
 
@@ -57,11 +61,11 @@ int main(int argc, const char * argv[]) {
     
     SalesList myList = new_SalesList();
 
-    add_to_list(myList, new_Part(1001, "Hard disk", "NONE", 135000, 0));
-    add_to_list(myList, new_Part(1002, "CPU", "NONE", 235000, 0));
-    add_to_list(myList, new_Part(1003, "Main board", "NONE", 122000, 0));
-    add_to_list(myList, new_Part(1004, "Monitor", "NONE", 260000, 0));
-    add_to_list(myList, new_Part(1005, "DVD-RW", "NONE", 73500, 0));
+    add_to_list(myList, new_Part(1001, allocate_string("Hard disk"), allocate_string("NONE"), 135000, 0));
+    add_to_list(myList, new_Part(1002, allocate_string("CPU"), allocate_string("NONE"), 235000, 0));
+    add_to_list(myList, new_Part(1003, allocate_string("Main board"), allocate_string("NONE"), 122000, 0));
+    add_to_list(myList, new_Part(1004, allocate_string("Monitor"), allocate_string("NONE"), 260000, 0));
+    add_to_list(myList, new_Part(1005, allocate_string("DVD-RW"), allocate_string("NONE"), 73500, 0));
     
     start_main_loop(myList);
     
@@ -69,3 +73,9 @@ int main(int argc, const char * argv[]) {
     
     return 0;
 }
+
+//
+//  Author
+//  ID: 201701562
+//  Name: Byeong Jun Song
+//

@@ -5,11 +5,10 @@
 //  Created by POTADOS on 2018. 5. 24..
 //  Copyright © 2018 POTADOS. All rights reserved.
 //
-
-/*
- Dependency:    Part.h
-                ioutil.h
- */
+//  Author
+//  ID: 201701562
+//  Name: Byeong Jun Song
+//
 
 #ifndef SalesManagement_h
 #define SalesManagement_h
@@ -43,3 +42,9 @@ void add_to_list(SalesList list, Part part);
 void print_sales_list(SalesList list);
 
 #endif /* SalesManagement_h */
+
+//
+//  Author
+//  ID: 201701562
+//  Name: Byeong Jun Song
+//
