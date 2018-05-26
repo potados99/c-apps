@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include "ioutil.h"
 
+/* private */
 ///
 /// struct _Part
 /// Purpose: to store properties of part
@@ -26,6 +27,7 @@ typedef struct _Part{
     int revenue;
 } _Part;
 
+/* public */
 ///
 /// Part
 /// Purpose: to use as a reference of struct _Part
@@ -37,6 +39,5 @@ Part new_Part(int partNum,
               char *specification,
               int price,
               int sales);
-
 
 #endif /* Part_h */

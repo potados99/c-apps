@@ -3,7 +3,7 @@
 //  sales-management
 //
 //  Created by POTADOS on 2018. 5. 24..
-//  Copyright © 2018년 POTADOS. All rights reserved.
+//  Copyright © 2018 POTADOS. All rights reserved.
 //
 
 #ifndef ioutil_h
@@ -22,19 +22,33 @@
 
 typedef int bool;
 
-char *get_input_string(void);
+/* private */
+void _int_to_string(char * dest, const int num);
+void _int_to_string_with_comma(char *dest, const int num);
+int _get_sum(const int *nums, const int count);
 
+/* public */
+char *get_input_string(void);
 int get_input_number(void);
 
-void print_string_with_blank(char **string, int count , int * spaces);
+void println_string_cells_with_token(const char **string,
+                                     const int stringCount ,
+                                     const char token,
+                                     const int *tokenLengths,
+                                     const char border);
 
-void print_divider(int *spaces);
+void println_string_with_token(const char *string,
+                               const char token,
+                               const int tokenLength,
+                               const char border);
 
-void print_blank(const unsigned int length);
+void print_string_with_token(const char *string,
+                             const char token,
+                             const int tokenLength,
+                             const char border);
 
-void int_to_string(char * _dest, const int num);
-
-void int_to_string_with_comma(char *_dest, const int num);
+void println_token(const char token, const unsigned int length);
+void print_token(const char token, const unsigned int length);
 
 void wait_for_enter(void);
 
