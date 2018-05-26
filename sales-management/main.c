@@ -65,6 +65,10 @@ int main(int argc, const char * argv[]) {
     puts("> Author info:");
     puts("> ID: 201701562");
     puts("> Name: Byeong Jun Song\n");
+    
+    puts("> Update logs:");
+    static const char *url = "https://github.com/potados99/c-apps/tree/master/sales-management";
+    printf("> %s\n\n", url);
 #endif
     
     SalesList myList = new_SalesList();
@@ -80,6 +84,7 @@ int main(int argc, const char * argv[]) {
     destructor(myList);
     
 #ifdef _MSC_VER
+    puts("Program ended.");
     getchar();
 #endif
     return 0;
