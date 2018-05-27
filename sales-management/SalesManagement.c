@@ -132,7 +132,7 @@ void _print_parts(Part *parts, const unsigned int length, const unsigned int spe
 SalesList new_SalesList(void) {
     SalesList list = (_SalesList *)malloc(sizeof(_SalesList));
     
-    list->parts = (Part *)malloc(sizeof(Part) * 0);
+    list->parts = (Part *)malloc(sizeof(Part));
     list->numberOfParts = 0;
     
     return list;
