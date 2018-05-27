@@ -65,12 +65,12 @@ int main(int argc, const char * argv[]) {
     puts("\n> Programming assignment #3");
     puts("> Sales-management\n");
     rewind(stdout);
-    usleep(1000*1000*0.4);
+    _sleep(1000*0.4);
     puts("> Author info:");
     puts("> ID: 201701562");
     puts("> Name: Byeong Jun Song\n");
     rewind(stdout);
-    usleep(1000*1000*0.4);
+    _sleep(1000*0.4);
     print_moving_string("Loading", STRING_FLOW_DIRECTION_LEFT, 10, 25, '[', ']');
 #else
     puts("");
