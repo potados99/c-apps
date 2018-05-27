@@ -197,6 +197,7 @@ void start_main_loop(SalesList list) {
         rewind(stdin);
         _display_main_menu();
     }
+    rewind(stdin);
     printf("Exiting program.\n");
 }
 
