@@ -3,7 +3,7 @@
 //  sales-management
 //
 //  Created by POTADOS on 2018. 5. 24..
-//  Copyright © 2018년 POTADOS. All rights reserved.
+//  Copyright © 2018 POTADOS. All rights reserved.
 //
 //  Author
 //  ID: 201701562
@@ -11,7 +11,6 @@
 //
 
 #include "ioutil.h"
-
 
 void _int_to_string(char *dest, const int num) {
     /*
@@ -263,8 +262,8 @@ void print_moving_string(const char *string, const int flowDirection, const int 
         rewind(stdout);
         printf("\r");
         rewind(stdout);
-        usleep(1000 * 1000 / speed);
-
+        _sleep(1000 / speed);
+        
         printf("%c", boxBorderLeft);
 
         unsigned int lastCharacterPosition = 0;
@@ -307,12 +306,13 @@ void print_moving_string(const char *string, const int flowDirection, const int 
         
         printf("%c", boxBorderRight);
     }
+    
     printf("\r");
     for (register unsigned int i = 0; i <= boxLength; ++ i)
         printf("%c", ' ');
     printf("\r");
     rewind(stdout);
-    usleep(1000 * 1000 * 0.2);
+    _sleep(1000 * 0.2);
 }
 
 //

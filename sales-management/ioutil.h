@@ -16,7 +16,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#if defined __APPLE__ || defined __unix__
 #include <unistd.h>
+#define _sleep(x) usleep(1000 * (x));
+
+#elif defined __WIN32__ || defined _MSC_VER
+#define _sleep(x) Sleep(x);
+#include <windows.h>
+#endif
 
 #define _BUFFER_SIZE 64
 #define _SMALL_BUFFER_SIZE 16
