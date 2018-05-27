@@ -11,6 +11,8 @@
 //
 
 #include "SalesManagement.h"
+#include "Part.h"
+#include "ioutil.h"
 
 /*
  [Basic concept]
