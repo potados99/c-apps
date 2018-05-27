@@ -239,7 +239,7 @@ void wait_for_enter() {
     rewind(stdin);
 }
 
-void print_moving_string(const char *string, const int speed, const int boxLength, const char boxBorderLeft, const char boxBorderRight) {
+void print_moving_string(const char *string, const int flowDirection, const int speed, const int boxLength, const char boxBorderLeft, const char boxBorderRight) {
    /*
     string: "Hello!"
     !
@@ -258,32 +258,58 @@ void print_moving_string(const char *string, const int speed, const int boxLengt
              he
               h
     */
-    for (register unsigned int lastCharacterPosition = 0; lastCharacterPosition < (boxLength + strlen(string)); ++ lastCharacterPosition) {
+    
+    for (register unsigned int frame = 0; frame < (boxLength + strlen(string)); ++ frame) {
+        rewind(stdout);
         printf("\r");
         rewind(stdout);
         usleep(1000 * 1000 / speed);
 
         printf("%c", boxBorderLeft);
 
-        unsigned int beforSpaceLength = (lastCharacterPosition < strlen(string)) ? 0 : (lastCharacterPosition - (unsigned int)strlen(string));
-        for (register unsigned int k = 0; k < beforSpaceLength; ++ k) {
-            printf("%c", ' ');
-        }
-
-        unsigned int stringBegin = (lastCharacterPosition > strlen(string)) ? 0 : ((unsigned int)strlen(string) - lastCharacterPosition);
-        unsigned int stringEnd = (lastCharacterPosition < boxLength) ? (unsigned int)strlen(string) : (unsigned int)strlen(string) - (lastCharacterPosition - boxLength) - 1;
-        for (register unsigned int j = stringBegin; j < stringEnd; ++ j) {
-            printf("%c", string[j]);
+        unsigned int lastCharacterPosition = 0;
+        unsigned int beforSpaceLength = 0;
+        unsigned int stringBegin = 0;
+        unsigned int stringEnd = 0;
+        unsigned int afterSpaceLength = 0;
+        
+        if (flowDirection == STRING_FLOW_DIRECTION_RIGHT) {
+            lastCharacterPosition = frame;
+        } else {
+            // default: left
+            lastCharacterPosition = boxLength + (unsigned int)strlen(string) - frame - 1;
         }
         
-        unsigned int afterSpaceLength = (lastCharacterPosition >= boxLength) ? 0 : (boxLength - lastCharacterPosition) - 1;
-        for (register unsigned int k = 0; k < afterSpaceLength; ++ k) {
-            printf("%c", ' ');
+        if (lastCharacterPosition >= strlen(string)) {
+            beforSpaceLength = lastCharacterPosition - (unsigned int)strlen(string);
+            stringBegin = 0;
+        } else {
+            beforSpaceLength = 0;
+            stringBegin = (unsigned int)strlen(string) - lastCharacterPosition;
         }
+        
+        if (lastCharacterPosition < boxLength) {
+            stringEnd = (unsigned int)strlen(string);
+            afterSpaceLength = (boxLength - lastCharacterPosition) - 1;
+        } else {
+            stringEnd = (unsigned int)strlen(string) - (lastCharacterPosition - boxLength) - 1;
+            afterSpaceLength = 0;
+        }
+        
+        for (register unsigned int k = 0; k < beforSpaceLength; ++ k)
+            printf("%c", ' ');
+        
+        for (register unsigned int j = stringBegin; j < stringEnd; ++ j)
+            printf("%c", string[j]);
+        
+        for (register unsigned int k = 0; k < afterSpaceLength; ++ k)
+            printf("%c", ' ');
         
         printf("%c", boxBorderRight);
-        
     }
+    printf("\r");
+    for (register unsigned int i = 0; i <= boxLength; ++ i)
+        printf("%c", ' ');
     printf("\r");
     rewind(stdout);
     usleep(1000 * 1000 * 0.2);

@@ -22,6 +22,9 @@
 #define _SMALL_BUFFER_SIZE 16
 #define _COLUMN_NUM 7
 
+#define STRING_FLOW_DIRECTION_RIGHT 1
+#define STRING_FLOW_DIRECTION_LEFT 2
+
 #define True 1
 #define False 0
 
@@ -59,7 +62,7 @@ void print_token(const char token, const unsigned int length);
 
 void wait_for_enter(void);
 
-void print_moving_string(const char *string, const int speed, const int boxLength, const char boxBorderLeft, const char boxBorderRight);
+void print_moving_string(const char *string, const int flowDirection, const int speed, const int boxLength, const char boxBorderLeft, const char boxBorderRight);
 
 #endif /* ioutil_h */
 
