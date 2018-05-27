@@ -239,6 +239,56 @@ void wait_for_enter() {
     rewind(stdin);
 }
 
+void print_moving_string(const char *string, const int speed, const int boxLength, const char boxBorderLeft, const char boxBorderRight) {
+   /*
+    string: "Hello!"
+    !
+    o!
+    lo!
+    llo!
+    ello!
+    hello!
+     hello!
+      hello!
+        hello!
+         hello!
+          hello
+           hell
+            hel
+             he
+              h
+    */
+    for (register unsigned int lastCharacterPosition = 0; lastCharacterPosition < (boxLength + strlen(string)); ++ lastCharacterPosition) {
+        printf("\r");
+        rewind(stdout);
+        usleep(1000 * 1000 / speed);
+
+        printf("%c", boxBorderLeft);
+
+        unsigned int beforSpaceLength = (lastCharacterPosition < strlen(string)) ? 0 : (lastCharacterPosition - (unsigned int)strlen(string));
+        for (register unsigned int k = 0; k < beforSpaceLength; ++ k) {
+            printf("%c", ' ');
+        }
+
+        unsigned int stringBegin = (lastCharacterPosition > strlen(string)) ? 0 : ((unsigned int)strlen(string) - lastCharacterPosition);
+        unsigned int stringEnd = (lastCharacterPosition < boxLength) ? (unsigned int)strlen(string) : (unsigned int)strlen(string) - (lastCharacterPosition - boxLength) - 1;
+        for (register unsigned int j = stringBegin; j < stringEnd; ++ j) {
+            printf("%c", string[j]);
+        }
+        
+        unsigned int afterSpaceLength = (lastCharacterPosition >= boxLength) ? 0 : (boxLength - lastCharacterPosition) - 1;
+        for (register unsigned int k = 0; k < afterSpaceLength; ++ k) {
+            printf("%c", ' ');
+        }
+        
+        printf("%c", boxBorderRight);
+        
+    }
+    printf("\r");
+    rewind(stdout);
+    usleep(1000 * 1000 * 0.2);
+}
+
 //
 //  Author
 //  ID: 201701562

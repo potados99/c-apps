@@ -60,14 +60,18 @@
  - No non ascii character to avoid encoding issue in VS
 */
 
+#include <unistd.h>
+
 int main(int argc, const char * argv[]) {
 #if defined _MSC_VER
-    puts("> Programming assignment #3");
+    puts("\n> Programming assignment #3");
     puts("> Sales-management\n");
 
     puts("> Author info:");
     puts("> ID: 201701562");
     puts("> Name: Byeong Jun Song\n");
+    
+    print_moving_string("Loading", 5, 12, '[', ']');
 #endif
     
     SalesList myList = new_SalesList();
@@ -77,7 +81,7 @@ int main(int argc, const char * argv[]) {
     add_to_list(myList, new_Part(1003, allocate_string("Main board"), allocate_string("NONE"), 122000, 0));
     add_to_list(myList, new_Part(1004, allocate_string("Monitor"), allocate_string("NONE"), 260000, 0));
     add_to_list(myList, new_Part(1005, allocate_string("DVD-RW"), allocate_string("NONE"), 73500, 0));
-    
+
     start_main_loop(myList);
     
     destructor(myList);

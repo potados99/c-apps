@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #define _BUFFER_SIZE 64
 #define _SMALL_BUFFER_SIZE 16
@@ -57,6 +58,8 @@ void println_token(const char token, const unsigned int length);
 void print_token(const char token, const unsigned int length);
 
 void wait_for_enter(void);
+
+void print_moving_string(const char *string, const int speed, const int boxLength, const char boxBorderLeft, const char boxBorderRight);
 
 #endif /* ioutil_h */
 
