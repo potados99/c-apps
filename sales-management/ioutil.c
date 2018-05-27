@@ -104,7 +104,7 @@ char *get_input_string() {
     }
     buffer[strlen(buffer) - 1] = '\0';
     
-    char *string = (char *)malloc(sizeof(char) * strlen(buffer));
+    char *string = (char *)malloc(sizeof(char) * strlen(buffer)+1);
     strcpy(string, buffer);
     
     return string;
@@ -141,7 +141,7 @@ char *allocate_string(const char *buffer) {
      [string]: pointer of allocated memmory
      Description: allocate memmory for string
      */
-    char *string = (char *)malloc(sizeof(char) * strlen(buffer));
+    char *string = (char *)malloc(sizeof(char) * strlen(buffer)+1);
     strcpy(string, buffer);
     return string;
 }

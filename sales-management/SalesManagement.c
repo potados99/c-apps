@@ -130,9 +130,9 @@ void _print_parts(Part *parts, const unsigned int length, const unsigned int spe
 
 
 SalesList new_SalesList(void) {
-    SalesList list = (_SalesList *)malloc(sizeof(_SalesList));
+    SalesList list = (_SalesList *)malloc(sizeof(_SalesList)+1);
     
-    list->parts = (Part *)malloc(sizeof(Part));
+    list->parts = (Part *)malloc(sizeof(Part)+1);
     list->numberOfParts = 0;
     
     return list;
@@ -365,7 +365,7 @@ void create_new_part_from_input(SalesList list) {
 }
 
 void add_to_list(SalesList list, Part part) {
-    list->parts = (Part *)realloc(list->parts, sizeof(Part) * (++ list->numberOfParts));
+    list->parts = (Part *)realloc(list->parts, sizeof(Part) * (++ list->numberOfParts)+1);
     list->parts[list->numberOfParts - 1] = part;
 }
 

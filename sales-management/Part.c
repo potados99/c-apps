@@ -18,7 +18,7 @@ Part new_Part(int partNum,
               int price,
               int sales) {
     
-    Part newPart = (Part)malloc(sizeof(_Part));
+    Part newPart = (Part)malloc(sizeof(_Part)+1);
     newPart->partNum = partNum;
     newPart->partName = partName;
     newPart->specification = specification;
