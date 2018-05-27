@@ -60,8 +60,6 @@
  - No non ascii character to avoid encoding issue in VS
 */
 
-#include <unistd.h>
-
 int main(int argc, const char * argv[]) {
 #if defined _MSC_VER
     puts("\n> Programming assignment #3");
