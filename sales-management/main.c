@@ -61,7 +61,7 @@
 */
 
 #include <unistd.h>
-#define _MSC_VER
+
 int main(int argc, const char * argv[]) {
 #if defined _MSC_VER
     puts("\n> Programming assignment #3");
@@ -74,6 +74,9 @@ int main(int argc, const char * argv[]) {
     rewind(stdout);
     usleep(1000*1000*0.4);
     print_moving_string("Loading", STRING_FLOW_DIRECTION_LEFT, 10, 25, '[', ']');
+#else
+    puts("");
+    print_moving_string("Loading", STRING_FLOW_DIRECTION_LEFT, 15, 25, '[', ']');
 #endif
     
     SalesList myList = new_SalesList();
