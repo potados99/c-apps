@@ -36,7 +36,6 @@
 
 #define _BUFFER_SIZE 64
 #define _SMALL_BUFFER_SIZE 16
-#define _COLUMN_NUM 7
 
 #define STRING_FLOW_DIRECTION_RIGHT 1
 #define STRING_FLOW_DIRECTION_LEFT 2
@@ -60,6 +59,7 @@ char *get_input_string(void);
 int get_input_number(void);
 
 char *allocate_string(const char *buffer);
+char **allocate_strings(const char **buffer, const int stringCount);
 
 void println_string_cells_with_token(const char **string,
                                      const int stringCount ,
