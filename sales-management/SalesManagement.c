@@ -342,17 +342,21 @@ void print_sales_list(SalesList list, const unsigned int specificIndex) {
     /* optional thing to do when printing all */
     if (specificIndex == _LIST_ALL) {
         println_token('=', _get_sum(list->colomnSpaces, 7) + 1);
+        char salesTotal[_SMALL_BUFFER_SIZE];
         char revenueTotal[_SMALL_BUFFER_SIZE];
         
+        unsigned int salesCount = 0;
         unsigned int revCount = 0;
         for (register unsigned int i = 0; i < list->numberOfParts; ++ i) {
+            salesCount += list->parts[i]->sales;
             revCount += list->parts[i]->revenue;
         }
         
+        _int_to_string_with_comma(salesTotal, salesCount);
         _int_to_string_with_comma(revenueTotal, revCount);
-        const char *partProperties[_COLUMN_NUM] = {"Total", "", "", "", "", "", revenueTotal};
+        const char *partProperties[_COLUMN_NUM] = {"Total", "", "", "", "", salesTotal, revenueTotal};
         
-        // print total revenue
+        // print totals
         println_string_cells_with_token(partProperties, _COLUMN_NUM, ' ', list->colomnSpaces, '|');
     }
 }
