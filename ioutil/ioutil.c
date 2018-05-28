@@ -21,12 +21,12 @@
 #include "ioutil.h"
 
 void _int_to_string(char *dest, const int num) {
-    sprintf(dest, "%d", num);
+    snprintf(dest, _SMALL_BUFFER_SIZE, "%d", num);
 }
 
 void _int_to_string_with_comma(char *dest, const int num) {
     char buffer[_SMALL_BUFFER_SIZE];
-    sprintf(buffer, "%d", num);
+    snprintf(buffer, _SMALL_BUFFER_SIZE, "%d", num);
     
     unsigned int index = 0;
     unsigned int length = (unsigned int)strlen(buffer);
