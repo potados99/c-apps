@@ -17,12 +17,11 @@
 #include <stdlib.h>
 #include "ioutil.h"
 
+#define _COLUMN_NUM 7
+
 /* private */
-///
-/// struct _Part
-/// Purpose: to store properties of part
-///
 typedef struct _Part{
+    // int index
     int partNum;
     char *partName;
     char *specification;
@@ -32,10 +31,6 @@ typedef struct _Part{
 } _Part;
 
 /* public */
-///
-/// Part
-/// Purpose: to use as a reference of struct _Part
-///
 typedef _Part * Part;
 
 Part new_Part(int partNum,

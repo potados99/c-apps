@@ -62,7 +62,7 @@
  - No non ascii character to avoid encoding issue in VS
 */
 
-int main(int argc, const char * argv[]) {
+static inline void intro() {
 #if defined __WIN32__ || defined _MSC_VER
     puts("\n> Programming assignment #3");
     puts("> Sales-management\n");
@@ -78,8 +78,40 @@ int main(int argc, const char * argv[]) {
     puts("");
     print_moving_string("Loading", STRING_FLOW_DIRECTION_LEFT, STRING_FLOW_SPEED_MID, _MAIN_MENU_WIDTH, ' ', '[', ']');
 #endif
+}
+
+static inline void outro() {
+#if defined __WIN32__ || defined _MSC_VER
+    puts("Program ended.");
+    getchar();
+    puts("Disposing console.");
+#endif
+}
+
+int main(int argc, const char * argv[]) {
+    intro();
     
-    SalesList myList = new_SalesList();
+    static const char *colomnNames[_COLUMN_NUM] = {
+        "Index",
+        "Number",
+        "Name",
+        "Specification",
+        "Price",
+        "Sales",
+        "Revenue"
+    };
+    
+    static const int columnSpaces[_COLUMN_NUM] = {
+        8,  // index
+        11, // number
+        17, // name
+        20, // specification
+        12, // price
+        10, // sales
+        15  // revenue
+    };
+
+    SalesList myList = new_SalesList(colomnNames, columnSpaces);
 
     add_to_list(myList, new_Part(1001, allocate_string("Hard disk"), allocate_string("NONE"), 135000, 0));
     add_to_list(myList, new_Part(1002, allocate_string("CPU"), allocate_string("NONE"), 235000, 0));
@@ -91,11 +123,8 @@ int main(int argc, const char * argv[]) {
     
     destructor(myList);
     
-#if defined __WIN32__ || defined _MSC_VER
-    puts("Program ended.");
-    getchar();
-    puts("Disposing console.");
-#endif
+    outro();
+    
     return 0;
 }
 

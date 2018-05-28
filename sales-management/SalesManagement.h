@@ -26,6 +26,8 @@
 
 typedef struct _SalesList {
     Part *parts;
+    const char **colomnNames;
+    const int *colomnSpaces;
     int numberOfParts;
 } _SalesList;
 typedef _SalesList * SalesList;
@@ -33,16 +35,15 @@ typedef _SalesList * SalesList;
 /* private */
 void _display_main_menu(void);
 void _display_edit_menu(void);
-void _print_parts(Part *parts, const unsigned int length, const unsigned int specificIndex);
 
 /* public */
-SalesList new_SalesList(void);
+SalesList new_SalesList(const char **columnNames, const int *columnSpaces);
 void destructor(SalesList list);
 void start_main_loop(SalesList list);
 void start_edit_loop(SalesList list);
 void create_new_part_from_input(SalesList list);
 void add_to_list(SalesList list, Part part);
-void print_sales_list(SalesList list);
+void print_sales_list(SalesList list, const unsigned int specificIndex);
 
 #endif /* SalesManagement_h */
 

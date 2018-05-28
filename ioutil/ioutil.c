@@ -99,6 +99,15 @@ char *allocate_string(const char *buffer) {
     return string;
 }
 
+char **allocate_strings(const char **buffer, const int stringCount) {
+    char **strings = (char **)malloc(sizeof(char *) * stringCount+1);
+    for (unsigned int i = 0; i < stringCount; ++ i) {
+        strings[i] = (char *)malloc(sizeof(char) * strlen(buffer[i])+1);
+        snprintf(strings[i], _BUFFER_SIZE, "%s", buffer[i]);
+    }
+    return strings;
+}
+
 void println_string_cells_with_token(const char **string, const int stringCount , const char token, const int *tokenLength, const char border) {
     for (int i = 0; i < stringCount; ++ i) {
         printf("%c", border);
