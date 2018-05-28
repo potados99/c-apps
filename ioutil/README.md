@@ -1,3 +1,3 @@
 # ioutil
 
-Some useful function to help console input/output
+Some useful functions to help console input/output.
