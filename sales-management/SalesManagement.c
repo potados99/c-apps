@@ -255,10 +255,12 @@ void start_edit_loop(SalesList list) {
                 
                 printf("The new product name of %s is %s\n\n", oldName, part->partName);
                 _print_parts(list->parts, list->numberOfParts, targetIndex);
+                free(oldName);
                 break;
             case 3:
                 printf("Enter new specification: ");
                 if (atoi(charBuffer = get_input_string()) != -99) {
+                    free(part->specification);
                     part->specification = charBuffer;
                 }
                 else {

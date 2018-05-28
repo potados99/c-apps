@@ -73,10 +73,10 @@ int main(int argc, const char * argv[]) {
     puts("> Name: Byeong Jun Song\n");
     rewind(stdout);
     _sleep(1000*0.4);
-    print_moving_string("Loading", STRING_FLOW_DIRECTION_LEFT, STRING_FLOW_SPEED_MID, _MAIN_MENU_WIDTH, '[', ']');
+    print_moving_string("Loading", STRING_FLOW_DIRECTION_LEFT, STRING_FLOW_SPEED_SLOW, _MAIN_MENU_WIDTH, ' ', '[', ']');
 #else
     puts("");
-    print_moving_string("Loading", STRING_FLOW_DIRECTION_LEFT, STRING_FLOW_SPEED_MID, _MAIN_MENU_WIDTH, '[', ']');
+    print_moving_string("Loading", STRING_FLOW_DIRECTION_LEFT, STRING_FLOW_SPEED_MID, _MAIN_MENU_WIDTH, ' ', '[', ']');
 #endif
     
     SalesList myList = new_SalesList();
