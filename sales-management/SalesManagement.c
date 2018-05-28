@@ -13,28 +13,26 @@
 #include "SalesManagement.h"
 
 void _display_main_menu() {
-    static const int lineLength = 25;
-    println_string_with_token(" Main menu ", '=', lineLength, '|');
-    println_string_with_token("1. SHOW sales data", ' ', lineLength, '|');
-    println_string_with_token("2. ADD new part   ", ' ', lineLength, '|');
-    println_string_with_token("3. EDIT part info ", ' ', lineLength, '|');
-    println_string_with_token(NULL, '-', lineLength, '|');
-    println_string_with_token("4. Exit           ", ' ', lineLength, '|');
-    println_string_with_token(NULL, '=', lineLength, '|');
+    println_string_with_token(" Main menu ", '=', _MAIN_MENU_WIDTH, '|');
+    println_string_with_token("1. SHOW sales data", ' ', _MAIN_MENU_WIDTH, '|');
+    println_string_with_token("2. ADD new part   ", ' ', _MAIN_MENU_WIDTH, '|');
+    println_string_with_token("3. EDIT part info ", ' ', _MAIN_MENU_WIDTH, '|');
+    println_string_with_token(NULL, '-', _MAIN_MENU_WIDTH, '|');
+    println_string_with_token("4. Exit           ", ' ', _MAIN_MENU_WIDTH, '|');
+    println_string_with_token(NULL, '=', _MAIN_MENU_WIDTH, '|');
     printf("> ");
 }
 
 void _display_edit_menu() {
-    static const int lineLength = 25;
-    println_string_with_token(" Main menu ", '=', lineLength, '|');
-    println_string_with_token("1. Product number", ' ', lineLength, '|');
-    println_string_with_token("2. Product name  ", ' ', lineLength, '|');
-    println_string_with_token("3. Specification ", ' ', lineLength, '|');
-    println_string_with_token("4. Price         ", ' ', lineLength, '|');
-    println_string_with_token("5. Sales         ", ' ', lineLength, '|');
-    println_string_with_token(NULL, '-', lineLength, '|');
-    println_string_with_token("6. Back          ", ' ', lineLength, '|');
-    println_string_with_token(NULL, '=', lineLength, '|');
+    println_string_with_token(" Main menu ", '=', _EDIT_MENU_WIDTH, '|');
+    println_string_with_token("1. Product number", ' ', _EDIT_MENU_WIDTH, '|');
+    println_string_with_token("2. Product name  ", ' ', _EDIT_MENU_WIDTH, '|');
+    println_string_with_token("3. Specification ", ' ', _EDIT_MENU_WIDTH, '|');
+    println_string_with_token("4. Price         ", ' ', _EDIT_MENU_WIDTH, '|');
+    println_string_with_token("5. Sales         ", ' ', _EDIT_MENU_WIDTH, '|');
+    println_string_with_token(NULL, '-', _EDIT_MENU_WIDTH, '|');
+    println_string_with_token("6. Back          ", ' ', _EDIT_MENU_WIDTH, '|');
+    println_string_with_token(NULL, '=', _EDIT_MENU_WIDTH, '|');
     printf("> ");
 }
 
@@ -51,7 +49,7 @@ void _print_parts(Part *parts, const unsigned int length, const unsigned int spe
      Non-string variables are converted to string to be processed as an element of char * array.
      */
     
-    if ((specificIndex > length - 1) && !(specificIndex & (LIST_LAST | LIST_ALL)))
+    if ((specificIndex > length - 1) && !(specificIndex & (_LIST_LAST | _LIST_ALL)))
         return;
     
     /* constant variable setup */
@@ -77,10 +75,10 @@ void _print_parts(Part *parts, const unsigned int length, const unsigned int spe
     int begin = 0;
     int end = 0;
     
-    if (specificIndex == LIST_ALL) {
+    if (specificIndex == _LIST_ALL) {
         begin = 0;
         end = length;
-    } else if (specificIndex == LIST_LAST) {
+    } else if (specificIndex == _LIST_LAST) {
         begin = length - 1;
         end = length;
     } else {
@@ -111,7 +109,7 @@ void _print_parts(Part *parts, const unsigned int length, const unsigned int spe
     }
     
     /* optional thing to do when printing all */
-    if (specificIndex == LIST_ALL) {
+    if (specificIndex == _LIST_ALL) {
         println_token('=', _get_sum(spaces, 7) + 1);
         char revenueTotal[_SMALL_BUFFER_SIZE];
         
@@ -362,7 +360,7 @@ void create_new_part_from_input(SalesList list) {
     add_to_list(list, newPart);
     
     puts("\nAdded: ");
-    _print_parts(list->parts, list->numberOfParts, LIST_LAST);
+    _print_parts(list->parts, list->numberOfParts, _LIST_LAST);
 }
 
 void add_to_list(SalesList list, Part part) {
@@ -371,7 +369,7 @@ void add_to_list(SalesList list, Part part) {
 }
 
 void print_sales_list(SalesList list) {
-    _print_parts(list->parts, list->numberOfParts, LIST_ALL);
+    _print_parts(list->parts, list->numberOfParts, _LIST_ALL);
 }
 
 //

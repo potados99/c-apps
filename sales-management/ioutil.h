@@ -1,14 +1,22 @@
-//
-//  ioutil.h
-//  sales-management
-//
-//  Created by POTADOS on 2018. 5. 24..
-//  Copyright © 2018 POTADOS. All rights reserved.
-//
-//  Author
-//  ID: 201701562
-//  Name: Byeong Jun Song
-//
+/*--
+ ioutil
+ 
+ Copyright (C) 2018 Byeong Jun Song
+ potados99@gmail.com
+ 
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+--*/
 
 #ifndef ioutil_h
 #define ioutil_h
@@ -32,6 +40,10 @@
 
 #define STRING_FLOW_DIRECTION_RIGHT 1
 #define STRING_FLOW_DIRECTION_LEFT 2
+
+#define STRING_FLOW_SPEED_SLOW 5
+#define STRING_FLOW_SPEED_MID 10
+#define STRING_FLOW_SPEED_FAST 20
 
 #define True 1
 #define False 0
@@ -73,9 +85,3 @@ void wait_for_enter(void);
 void print_moving_string(const char *string, const int flowDirection, const int speed, const int boxLength, const char boxBorderLeft, const char boxBorderRight);
 
 #endif /* ioutil_h */
-
-//
-//  Author
-//  ID: 201701562
-//  Name: Byeong Jun Song
-//

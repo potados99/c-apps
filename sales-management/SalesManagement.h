@@ -18,8 +18,11 @@
 #include "Part.h"
 #include "ioutil.h"
 
-#define LIST_ALL 0x01000000
-#define LIST_LAST 0x10000000
+#define _LIST_ALL 0x01000000
+#define _LIST_LAST 0x10000000
+
+#define _MAIN_MENU_WIDTH 25
+#define _EDIT_MENU_WIDTH 25
 
 typedef struct _SalesList {
     Part *parts;
