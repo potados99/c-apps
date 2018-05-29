@@ -73,7 +73,7 @@ void destructor(SalesList list) {
 
 void start_main_loop(SalesList list) {
     _display_main_menu();
-    
+
     int selected = 0;
     rewind(stdin);
     
