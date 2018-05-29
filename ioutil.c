@@ -215,7 +215,50 @@ void print_moving_string(const char *string, const int flowDirection, const int 
     printf("\r");
     for (register unsigned int i = 0; i <= boxLength; ++ i)
         printf("%c", ' ');
+
     printf("\r");
     rewind(stdout);
     _sleep(1000 * 0.2);
 }
+
+void gotoxy(int x, int y) {
+#if defined __WIN32__ || defined _MSC_VER
+
+	COORD coord;
+	coord.X = x;
+	coord.Y = y;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+
+#elif defined __APPLE__ || defined __unix__
+
+	printf("\033[%d;%dH", x, y);
+
+#endif
+}
+
+void movexy(int x, int y) {
+#if defined __WIN32__ || defined _MSC_VER
+
+	CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbiInfo);
+	gotoxy(csbiInfo.dwCursorPosition.X + x, csbiInfo.dwCursorPosition.Y + y);
+
+#elif defined __APPLE__ || defined __unix__
+
+	if (x > 0) {
+		printf("\033[%dC", x);
+	}
+	else if (x < 0) {
+		printf("\033[%dD", x * -1);
+	}
+
+	if (y > 0) {
+		printf("\033[%dB", y);
+	}
+	else if (y < 0) {
+		printf("\033[%dA", y * -1);
+	}
+
+#endif
+}
+
