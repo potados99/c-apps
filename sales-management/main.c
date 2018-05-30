@@ -76,7 +76,7 @@ static inline void intro() {
     print_moving_string("Loading", STRING_FLOW_DIRECTION_LEFT, STRING_FLOW_SPEED_SLOW, _MAIN_MENU_WIDTH, ' ', '[', ']');
 #else
     puts("");
-    print_moving_string("Loading", STRING_FLOW_DIRECTION_LEFT, STRING_FLOW_SPEED_MID, _MAIN_MENU_WIDTH, ' ', '[', ']');
+    print_moving_string("Loading", STRING_FLOW_DIRECTION_LEFT, STRING_FLOW_SPEED_FAST, _MAIN_MENU_WIDTH, ' ', '[', ']');
 #endif
 }
 

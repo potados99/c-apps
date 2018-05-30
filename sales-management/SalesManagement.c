@@ -13,26 +13,26 @@
 #include "SalesManagement.h"
 
 void _display_main_menu() {
-    println_string_with_token(" Main menu ", '=', _MAIN_MENU_WIDTH, '|');
-    println_string_with_token("1. SHOW sales data", ' ', _MAIN_MENU_WIDTH, '|');
-    println_string_with_token("2. ADD new part   ", ' ', _MAIN_MENU_WIDTH, '|');
-    println_string_with_token("3. EDIT part info ", ' ', _MAIN_MENU_WIDTH, '|');
-    println_string_with_token(NULL, '-', _MAIN_MENU_WIDTH, '|');
-    println_string_with_token("4. Exit           ", ' ', _MAIN_MENU_WIDTH, '|');
-    println_string_with_token(NULL, '=', _MAIN_MENU_WIDTH, '|');
+    println_string_with_token(" Main menu ", "═", _MAIN_MENU_WIDTH, "╔", "╗");
+    println_string_with_token("1. SHOW sales data", " ", _MAIN_MENU_WIDTH, "║", "║");
+    println_string_with_token("2. ADD new part   ", " ", _MAIN_MENU_WIDTH, "║", "║");
+    println_string_with_token("3. EDIT part info ", " ", _MAIN_MENU_WIDTH, "║", "║");
+    println_string_with_token(NULL, "─", _MAIN_MENU_WIDTH, "╟", "╢");
+    println_string_with_token("4. Exit           ", " ", _MAIN_MENU_WIDTH, "║", "║");
+    println_string_with_token(NULL, "═",_MAIN_MENU_WIDTH, "╚", "╝");
     printf("> ");
 }
 
 void _display_edit_menu() {
-    println_string_with_token(" Main menu ", '=', _EDIT_MENU_WIDTH, '|');
-    println_string_with_token("1. Product number", ' ', _EDIT_MENU_WIDTH, '|');
-    println_string_with_token("2. Product name  ", ' ', _EDIT_MENU_WIDTH, '|');
-    println_string_with_token("3. Specification ", ' ', _EDIT_MENU_WIDTH, '|');
-    println_string_with_token("4. Price         ", ' ', _EDIT_MENU_WIDTH, '|');
-    println_string_with_token("5. Sales         ", ' ', _EDIT_MENU_WIDTH, '|');
-    println_string_with_token(NULL, '-', _EDIT_MENU_WIDTH, '|');
-    println_string_with_token("6. Back          ", ' ', _EDIT_MENU_WIDTH, '|');
-    println_string_with_token(NULL, '=', _EDIT_MENU_WIDTH, '|');
+    println_string_with_token(" Main menu ", "═", _EDIT_MENU_WIDTH, "╔",  "╗");
+    println_string_with_token("1. Product number", " ", _EDIT_MENU_WIDTH, "║", "║");
+    println_string_with_token("2. Product name  ", " ", _EDIT_MENU_WIDTH, "║", "║");
+    println_string_with_token("3. Specification ", " ", _EDIT_MENU_WIDTH, "║", "║");
+    println_string_with_token("4. Price         ", " ", _EDIT_MENU_WIDTH, "║", "║");
+    println_string_with_token("5. Sales         ", " ", _EDIT_MENU_WIDTH, "║", "║");
+    println_string_with_token(NULL, " ", _EDIT_MENU_WIDTH, "║", "║");
+    println_string_with_token("6. Back          ", " ", _EDIT_MENU_WIDTH, "║", "║");
+    println_string_with_token(NULL, "═", _EDIT_MENU_WIDTH,"╚", "╝");
     printf("> ");
 }
 
@@ -77,12 +77,11 @@ void start_main_loop(SalesList list) {
     int selected = 0;
     rewind(stdin);
     
-    while ((selected = getchar() - '0') != 4) {
+    while ((selected = get_input_number(NULL, WITHOUT_BOX)) != 4) {
         rewind(stdin);
         
         bool escapedFromEdit = False;
         
-        puts("");
         switch (selected) {
             case 1:
                 print_sales_list(list, _LIST_ALL);
@@ -112,13 +111,11 @@ void start_main_loop(SalesList list) {
 }
 
 void start_edit_loop(SalesList list) {
-    int targetIndex = 0;
-    printf("Enter the index of part you want to edit: ");
-    
-    while (((targetIndex = getchar() -'0') < 0) || (targetIndex >= list->numberOfParts) || (targetIndex + '0' == 10))
-        printf("**Enter proper index: ");
-    
-    puts("");
+    int targetIndex = get_input_number("Enter the index of part you want to edit: ", WITHOUT_BOX);
+    while ((targetIndex < 0) || (targetIndex >= list->numberOfParts)) {
+        printf("**Enter proper index. \n");
+        targetIndex = get_input_number("Enter the index of part you want to edit: ", WITHOUT_BOX);
+    }
     print_sales_list(list, targetIndex);
     wait_for_enter();
     
@@ -128,22 +125,21 @@ void start_edit_loop(SalesList list) {
     Part part = list->parts[targetIndex];
     rewind(stdin);
     
-    selected = getchar() - '0';
+    selected = get_input_number(NULL, WITHOUT_BOX);
     int breakMe = 0;
     
     while (1) {
         rewind(stdin);
         
         breakMe = 0;
-        puts("");
         
         int intBuffer;
         char *charBuffer;
+        char *oldName;
         
         switch (selected) {
             case 1:
-                printf("Enter new product number: ");
-                if ((intBuffer = get_input_number()) != -99) {
+                if ((intBuffer = get_input_number("Enter new product number: ", WITH_BOX)) != -99) {
                     part->partNum = intBuffer;
                 }
                 else {
@@ -155,9 +151,8 @@ void start_edit_loop(SalesList list) {
                 print_sales_list(list, targetIndex);
                 break;
             case 2:
-                printf("Enter new product name: ");
-                char *oldName = part->partName;
-                if (atoi(charBuffer = get_input_string()) != -99) {
+                oldName = part->partName;
+                if (atoi(charBuffer = get_input_string("Enter new product name: ", WITH_BOX)) != -99) {
                     part->partName = charBuffer;
                 }
                 else {
@@ -170,8 +165,7 @@ void start_edit_loop(SalesList list) {
                 free(oldName);
                 break;
             case 3:
-                printf("Enter new specification: ");
-                if (atoi(charBuffer = get_input_string()) != -99) {
+                if (atoi(charBuffer = get_input_string("Enter new specification: ", WITH_BOX)) != -99) {
                     free(part->specification);
                     part->specification = charBuffer;
                 }
@@ -184,8 +178,7 @@ void start_edit_loop(SalesList list) {
                 print_sales_list(list, targetIndex);
                 break;
             case 4:
-                printf("Enter new price: ");
-                if ((intBuffer = get_input_number()) != -99) {
+                if ((intBuffer = get_input_number("Enter new price: ", WITH_BOX)) != -99) {
                     part->price = intBuffer;
                 }
                 else {
@@ -198,8 +191,7 @@ void start_edit_loop(SalesList list) {
                 print_sales_list(list, targetIndex);
                 break;
             case 5:
-                printf("Enter new sales: ");
-                if ((intBuffer = get_input_number()) != -99) {
+                if ((intBuffer = get_input_number("Enter new sales: ", WITH_BOX)) != -99) {
                     part->sales = intBuffer;
                 }
                 else {
@@ -224,7 +216,7 @@ void start_edit_loop(SalesList list) {
         wait_for_enter();
         _display_edit_menu();
         
-        selected = getchar() - '0';
+        selected = get_input_number(NULL, WITHOUT_BOX);
     }
 }
 
@@ -235,36 +227,31 @@ void create_new_part_from_input(SalesList list) {
     int price;
     int sales;
     
-    printf("Enter part number: ");
-    partNumber = get_input_number();
+    partNumber = get_input_number("Enter part number: ", WITH_BOX);
     if (partNumber == -99) {
         puts("Canceled");
         return;
     }
     
-    printf("Enter part name: ");
-    partName = get_input_string();
+    partName = get_input_string("Enter part name: ", WITH_BOX);
     if (atoi(partName) == -99) {
         puts("Canceled");
         return;
     }
     
-    printf("Enter specification: ");
-    specification = get_input_string();
+    specification = get_input_string("Enter specification: ", WITH_BOX);
     if (atoi(specification) == -99) {
         puts("Canceled");
         return;
     }
     
-    printf("Enter price: ");
-    price = get_input_number();
+    price = get_input_number("Enter price: ", WITH_BOX);
     if (price == -99) {
         puts("Canceled");
         return;
     }
     
-    printf("Enter sales: ");
-    sales = get_input_number();
+    sales = get_input_number("Enter sales: ", WITH_BOX);
     if (sales == -99) {
         puts("Canceled");
         return;
@@ -299,9 +286,12 @@ void print_sales_list(SalesList list, const unsigned int specificIndex) {
         return;
     
     // print first row
-    println_string_cells_with_token(list->colomnNames, _COLUMN_NUM, ' ', list->colomnSpaces, '|');
-    println_token('=', _get_sum(list->colomnSpaces, 7) + 1); /* print a row for division */
+    println_string_cells_with_token(NULL, _COLUMN_NUM, "═", list->colomnSpaces, "╔", "╦", "╗");
     
+    println_string_cells_with_token(list->colomnNames, _COLUMN_NUM, " ", list->colomnSpaces, "║", "║", "║");
+    
+    println_string_cells_with_token(NULL, _COLUMN_NUM, "═", list->colomnSpaces, "╠", "╬", "╣");
+
     /* range setup */
     int begin = 0;
     int end = 0;
@@ -335,13 +325,13 @@ void print_sales_list(SalesList list, const unsigned int specificIndex) {
         
         const char *partProperties[_COLUMN_NUM] = { index, num, list->parts[i]->partName, list->parts[i]->specification, price, sales, revenue };
         
-        // print all properties center-aligned, covered and divided by '|'
-        println_string_cells_with_token(partProperties, _COLUMN_NUM, ' ', list->colomnSpaces, '|');
+        // print all properties center-aligned, covered and divided by "|"
+        println_string_cells_with_token(partProperties, _COLUMN_NUM, " ", list->colomnSpaces, "║", "║" ,"║");
     }
     
     /* optional thing to do when printing all */
     if (specificIndex == _LIST_ALL) {
-        println_token('=', _get_sum(list->colomnSpaces, 7) + 1);
+        println_string_cells_with_token(NULL, _COLUMN_NUM, "═", list->colomnSpaces, "╠", "╬", "╣");
         char salesTotal[_SMALL_BUFFER_SIZE];
         char revenueTotal[_SMALL_BUFFER_SIZE];
         
@@ -357,7 +347,13 @@ void print_sales_list(SalesList list, const unsigned int specificIndex) {
         const char *partProperties[_COLUMN_NUM] = {"Total", "", "", "", "", salesTotal, revenueTotal};
         
         // print totals
-        println_string_cells_with_token(partProperties, _COLUMN_NUM, ' ', list->colomnSpaces, '|');
+        println_string_cells_with_token(partProperties, _COLUMN_NUM, " ", list->colomnSpaces, "║", "║", "║");
+        
+        println_string_cells_with_token(NULL, _COLUMN_NUM, "═", list->colomnSpaces,"╚", "╩", "╝");
+    }
+    else {
+        println_string_cells_with_token(NULL, _COLUMN_NUM, "═", list->colomnSpaces,"╚", "╩", "╝");
+
     }
 }
 
