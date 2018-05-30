@@ -75,8 +75,9 @@ static inline void intro() {
     _sleep(1000*0.4);
     print_moving_string("Loading", STRING_FLOW_DIRECTION_LEFT, STRING_FLOW_SPEED_SLOW, _MAIN_MENU_WIDTH, ' ', '[', ']');
 #else
-    puts("");
-    print_moving_string("Loading", STRING_FLOW_DIRECTION_LEFT, STRING_FLOW_SPEED_FAST, _MAIN_MENU_WIDTH, ' ', '[', ']');
+    puts("\n> Programming assignment #3");
+    puts("> Sales-management\n");
+    print_moving_string("Loading", STRING_FLOW_DIRECTION_LEFT, STRING_FLOW_SPEED_MID, _MAIN_MENU_WIDTH, ' ', '[', ']');
 #endif
 }
 
@@ -89,8 +90,10 @@ static inline void outro() {
 }
 
 int main(int argc, const char * argv[]) {
+    clear_console();
     intro();
-    
+    clear_console();
+
     static const char *colomnNames[_COLUMN_NUM] = {
         "Index",
         "Number",

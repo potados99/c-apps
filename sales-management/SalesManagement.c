@@ -14,23 +14,23 @@
 
 void _display_main_menu() {
     println_string_with_token(" Main menu ", "═", _MAIN_MENU_WIDTH, "╔", "╗");
-    println_string_with_token("1. SHOW sales data", " ", _MAIN_MENU_WIDTH, "║", "║");
-    println_string_with_token("2. ADD new part   ", " ", _MAIN_MENU_WIDTH, "║", "║");
-    println_string_with_token("3. EDIT part info ", " ", _MAIN_MENU_WIDTH, "║", "║");
-    println_string_with_token(NULL, "─", _MAIN_MENU_WIDTH, "╟", "╢");
+    println_string_with_token("1. Show sales data", " ", _MAIN_MENU_WIDTH, "║", "║");
+    println_string_with_token("2. Add new part   ", " ", _MAIN_MENU_WIDTH, "║", "║");
+    println_string_with_token("3. Edit part info ", " ", _MAIN_MENU_WIDTH, "║", "║");
+    println_string_with_token(NULL, "═", _MAIN_MENU_WIDTH, "╠", "╣");
     println_string_with_token("4. Exit           ", " ", _MAIN_MENU_WIDTH, "║", "║");
     println_string_with_token(NULL, "═",_MAIN_MENU_WIDTH, "╚", "╝");
     printf("> ");
 }
 
 void _display_edit_menu() {
-    println_string_with_token(" Main menu ", "═", _EDIT_MENU_WIDTH, "╔",  "╗");
+    println_string_with_token(" Edit menu ", "═", _EDIT_MENU_WIDTH, "╔",  "╗");
     println_string_with_token("1. Product number", " ", _EDIT_MENU_WIDTH, "║", "║");
     println_string_with_token("2. Product name  ", " ", _EDIT_MENU_WIDTH, "║", "║");
     println_string_with_token("3. Specification ", " ", _EDIT_MENU_WIDTH, "║", "║");
     println_string_with_token("4. Price         ", " ", _EDIT_MENU_WIDTH, "║", "║");
     println_string_with_token("5. Sales         ", " ", _EDIT_MENU_WIDTH, "║", "║");
-    println_string_with_token(NULL, " ", _EDIT_MENU_WIDTH, "║", "║");
+    println_string_with_token(NULL, "═", _MAIN_MENU_WIDTH, "╠", "╣");
     println_string_with_token("6. Back          ", " ", _EDIT_MENU_WIDTH, "║", "║");
     println_string_with_token(NULL, "═", _EDIT_MENU_WIDTH,"╚", "╝");
     printf("> ");
@@ -81,7 +81,7 @@ void start_main_loop(SalesList list) {
         rewind(stdin);
         
         bool escapedFromEdit = False;
-        
+        clear_console();
         switch (selected) {
             case 1:
                 print_sales_list(list, _LIST_ALL);
@@ -91,7 +91,7 @@ void start_main_loop(SalesList list) {
                 break;
             case 3:
                 print_sales_list(list, _LIST_ALL);
-                puts("");
+                printf("\n");
                 start_edit_loop(list);
                 escapedFromEdit = True;
                 break;
@@ -100,10 +100,9 @@ void start_main_loop(SalesList list) {
                 puts("Wrong input.");
                 break;
         }
-        if (! escapedFromEdit )
+        if (! escapedFromEdit)
             wait_for_enter();
-        
-        rewind(stdin);
+        clear_console();
         _display_main_menu();
     }
     rewind(stdin);
@@ -113,12 +112,15 @@ void start_main_loop(SalesList list) {
 void start_edit_loop(SalesList list) {
     int targetIndex = get_input_number("Enter the index of part you want to edit: ", WITHOUT_BOX);
     while ((targetIndex < 0) || (targetIndex >= list->numberOfParts)) {
+        movexy(0, -2);
+        printf("\r");
         printf("**Enter proper index. \n");
         targetIndex = get_input_number("Enter the index of part you want to edit: ", WITHOUT_BOX);
     }
-    print_sales_list(list, targetIndex);
-    wait_for_enter();
     
+    clear_console();
+    print_sales_list(list, targetIndex);
+    printf("\n");
     _display_edit_menu();
     
     int selected = 0;
@@ -137,6 +139,11 @@ void start_edit_loop(SalesList list) {
         char *charBuffer;
         char *oldName;
         
+        clear_console();
+        print_sales_list(list, targetIndex);
+
+        printf("\n");
+        
         switch (selected) {
             case 1:
                 if ((intBuffer = get_input_number("Enter new product number: ", WITH_BOX)) != -99) {
@@ -147,7 +154,7 @@ void start_edit_loop(SalesList list) {
                     return;
                 }
                 
-                printf("The new product number of %s is %d\n\n", part->partName, part->partNum);
+                printf("\nThe new product number of %s is %d\n", part->partName, part->partNum);
                 print_sales_list(list, targetIndex);
                 break;
             case 2:
@@ -160,7 +167,7 @@ void start_edit_loop(SalesList list) {
                     return;
                 }
                 
-                printf("The new product name of %s is %s\n\n", oldName, part->partName);
+                printf("\nThe new product name of %s is %s\n", oldName, part->partName);
                 print_sales_list(list, targetIndex);
                 free(oldName);
                 break;
@@ -174,7 +181,7 @@ void start_edit_loop(SalesList list) {
                     return;
                 }
                 
-                printf("The new specification of %s is %s\n\n", part->partName, part->specification);
+                printf("\nThe new specification of %s is %s\n", part->partName, part->specification);
                 print_sales_list(list, targetIndex);
                 break;
             case 4:
@@ -186,7 +193,7 @@ void start_edit_loop(SalesList list) {
                     return;
                 }
                 
-                printf("The new price of %s is %d\n\n", part->partName, part->price);
+                printf("\nThe new price of %s is %d\n", part->partName, part->price);
                 part->revenue = part->price * part->sales;
                 print_sales_list(list, targetIndex);
                 break;
@@ -199,7 +206,7 @@ void start_edit_loop(SalesList list) {
                     return;
                 }
                 
-                printf("The new sales of %s is %d\n\n", part->partName, part->sales);
+                printf("\nThe new sales of %s is %d\n", part->partName, part->sales);
                 part->revenue = part->price * part->sales;
                 print_sales_list(list, targetIndex);
                 break;
@@ -214,6 +221,9 @@ void start_edit_loop(SalesList list) {
         if (breakMe)
             break;
         wait_for_enter();
+        clear_console();
+        print_sales_list(list, targetIndex);
+        printf("\n");
         _display_edit_menu();
         
         selected = get_input_number(NULL, WITHOUT_BOX);
@@ -260,6 +270,8 @@ void create_new_part_from_input(SalesList list) {
     Part newPart = new_Part(partNumber, partName, specification, price, sales);
     add_to_list(list, newPart);
     
+    clear_console();
+
     puts("\nAdded: ");
     print_sales_list(list, _LIST_LAST);
 }
