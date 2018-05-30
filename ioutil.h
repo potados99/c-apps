@@ -44,6 +44,9 @@
 #define STRING_FLOW_SPEED_MID 10
 #define STRING_FLOW_SPEED_FAST 20
 
+#define WITH_BOX 1
+#define WITHOUT_BOX 0
+
 #define True 1
 #define False 0
 
@@ -55,30 +58,37 @@ void _int_to_string_with_comma(char *dest, const int num);
 int _get_sum(const int *nums, const int count);
 
 /* public */
-char *get_input_string(void);
-int get_input_number(void);
+char *get_input_string(const char *output, const int withBox);
+int get_input_number(const char *output, const int withBox);
+
+void print_input_box(const int length);
+void clear_console(void);
 
 char *allocate_string(const char *buffer);
 char **allocate_strings(const char **buffer, const int stringCount);
 
 void println_string_cells_with_token(const char **string,
-                                     const int stringCount ,
-                                     const char token,
+                                     const int stringCount,
+                                     const char *token,
                                      const int *tokenLengths,
-                                     const char border);
+                                     const char *leftBorder,
+                                     const char *centerBorder,
+                                     const char *rightBorder);
 
 void println_string_with_token(const char *string,
-                               const char token,
+                               const char *token,
                                const int tokenLength,
-                               const char border);
+                               const char *leftBorder,
+                               const char *rightBorder);
 
 void print_string_with_token(const char *string,
-                             const char token,
+                             const char *token,
                              const int tokenLength,
-                             const char border);
+                             const char *leftBorder,
+                             const char *rightBorder);
 
-void println_token(const char token, const unsigned int length);
-void print_token(const char token, const unsigned int length);
+void println_token(const char *token, const unsigned int length);
+void print_token(const char *token, const unsigned int length);
 
 void wait_for_enter(void);
 
