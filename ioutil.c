@@ -61,8 +61,11 @@ int _get_sum(const int *nums, const int count) {
 char *get_input_string(const char *output, const int withBox) {
     char buffer[_BUFFER_SIZE];
     
-    if (output)
+    if (output) {
         printf("%s", output);
+        print_token(" ", _BUFFER_SIZE);
+        movexy(-(_BUFFER_SIZE), 0);
+    }
     
     if (withBox) {
     print_input_box(_BUFFER_SIZE);
@@ -74,32 +77,21 @@ char *get_input_string(const char *output, const int withBox) {
     rewind(stdin);
 
     while (strlen(buffer) == 1) {
-        
-        if (output)
-            printf("%s\n", output);
-        printf("**Enter proper value: ");
-        
-        if (withBox) {
-            print_input_box(_BUFFER_SIZE);
-            movexy(2, -2);
-        }
-        
-        rewind(stdin);
-        fgets(buffer, _BUFFER_SIZE - 1, stdin);
-        rewind(stdin);
-        
+        return NULL;
     }
     buffer[strlen(buffer) - 1] = '\0';
     
     char *string = (char *)malloc(sizeof(char) * strlen(buffer)+1);
     snprintf(string, _BUFFER_SIZE, "%s", buffer);
-    printf("\n");
+    
+    if (withBox)
+        printf("\n");
     return string;
 }
 
 int get_input_number(const char *output, const int withBox) {
     char *string = get_input_string(output, withBox);
-    int num = atoi(string);
+    int num = string ? atoi(string) : -1;
     free(string);
     return num;
 }
@@ -125,7 +117,11 @@ void print_input_box(const int length) {
 }
 
 void clear_console() {
-    
+#if defined __WIN32__ || defined _MSC_VER
+    system("cls");
+#elif defined __APPLE__ || defined __unix__
+    system("clear");
+#endif
 }
 
 char *allocate_string(const char *buffer) {
@@ -173,7 +169,7 @@ void println_string_with_token(const char *string,
                                const char *leftBorder,
                                const char *rightBorder) {
     print_string_with_token(string, token, tokenLength, leftBorder, rightBorder);
-    puts("");
+    printf("\n");
 }
 
 void print_string_with_token(const char *string,
@@ -197,7 +193,7 @@ void print_string_with_token(const char *string,
 
 void println_token(const char *token, const unsigned int length) {
     print_token(token, length);
-    puts("");
+    printf("\n");
 }
 
 void print_token(const char *token, const unsigned int length) {
