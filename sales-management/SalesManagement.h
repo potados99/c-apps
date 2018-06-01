@@ -5,6 +5,10 @@
 //  Created by POTADOS on 2018. 5. 24..
 //  Copyright © 2018 POTADOS. All rights reserved.
 //
+//  Author
+//  ID: 201701562
+//  Name: Byeong Jun Song
+//
 
 #ifndef SalesManagement_h
 #define SalesManagement_h
@@ -14,28 +18,37 @@
 #include "Part.h"
 #include "ioutil.h"
 
-#define LIST_ALL 0x01000000
-#define LIST_LAST 0x10000000
+#define _LIST_ALL 0x01000000
+#define _LIST_LAST 0x10000000
+
+#define _MAIN_MENU_WIDTH 25
+#define _EDIT_MENU_WIDTH 25
 
 typedef struct _SalesList {
     Part *parts;
+    const char **colomnNames;
+    const int *colomnSpaces;
     int numberOfParts;
 } _SalesList;
-
 typedef _SalesList * SalesList;
 
-SalesList new_SalesList(void);
+/* private */
+void _display_main_menu(void);
+void _display_edit_menu(void);
 
-void create_new_part_from_input(SalesList list);
-void add_to_list(SalesList list, Part part);
-
+/* public */
+SalesList new_SalesList(const char **columnNames, const int *columnSpaces);
+void destructor(SalesList list);
 void start_main_loop(SalesList list);
 void start_edit_loop(SalesList list);
-
-void display_main_menu(void);
-void display_edit_menu(void);
-
-void print_sales_list(SalesList list);
-void print_parts(Part *parts, const unsigned int length, const unsigned int specificIndex);
+void create_new_part_from_input(SalesList list);
+void add_to_list(SalesList list, Part part);
+void print_sales_list(SalesList list, const unsigned int specificIndex);
 
 #endif /* SalesManagement_h */
+
+//
+//  Author
+//  ID: 201701562
+//  Name: Byeong Jun Song
+//
