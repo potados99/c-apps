@@ -243,30 +243,35 @@ void create_new_part_from_input(SalesList list) {
     int sales;
     
     partNumber = get_input_number("Enter part number: ", WITH_BOX);
+    printf("\n");
     if (partNumber == INT_INPUT_ERROR || partNumber == -99) {
         puts("Canceled");
         return;
     }
     
     partName = get_input_string("Enter part name: ", WITH_BOX);
+    printf("\n");
     if (!partName || atoi(partName) == -99) {
         puts("Canceled");
         return;
     }
     
     specification = get_input_string("Enter specification: ", WITH_BOX);
+    printf("\n");
     if (!specification || atoi(specification) == -99) {
         puts("Canceled");
         return;
     }
     
     price = get_input_number("Enter price: ", WITH_BOX);
+    printf("\n");
     if (price == INT_INPUT_ERROR || price == -99) {
         puts("Canceled");
         return;
     }
     
     sales = get_input_number("Enter sales: ", WITH_BOX);
+    printf("\n");
     if (sales == INT_INPUT_ERROR || sales == -99) {
         puts("Canceled");
         return;
