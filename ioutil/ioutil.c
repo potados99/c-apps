@@ -58,39 +58,70 @@ int _get_sum(const int *nums, const int count) {
 }
 
 
-char *get_input_string() {
+char *get_input_string(const char *output, const int withBox) {
     char buffer[_BUFFER_SIZE];
+    
+    if (output) {
+        printf("%s", output);
+        print_token(" ", _BUFFER_SIZE);
+        movexy(-(_BUFFER_SIZE), 0);
+    }
+    
+    if (withBox) {
+    print_input_box(_BUFFER_SIZE);
+    movexy(2, -2);
+    }
+    
     rewind(stdin);
     fgets(buffer, _BUFFER_SIZE - 1, stdin);
     rewind(stdin);
 
     while (strlen(buffer) == 1) {
-        printf("**Enter proper value: ");
-        rewind(stdin);
-        fgets(buffer, _BUFFER_SIZE - 1, stdin);
-        rewind(stdin);
+        return NULL;
     }
     buffer[strlen(buffer) - 1] = '\0';
     
     char *string = (char *)malloc(sizeof(char) * strlen(buffer)+1);
     snprintf(string, _BUFFER_SIZE, "%s", buffer);
+    
+    if (withBox)
+        printf("\n");
     return string;
 }
 
-int get_input_number() {
-    char buffer[_BUFFER_SIZE];
-    rewind(stdin);
-    fgets(buffer, _BUFFER_SIZE - 1, stdin);
-    
-    while (strlen(buffer) == 1) {
-        printf("**Enter proper value: ");
-        rewind(stdin);
-        fgets(buffer, _BUFFER_SIZE - 1, stdin);
-        rewind(stdin);
-    }
-    rewind(stdin);
+int get_input_number(const char *output, const int withBox) {
+    char *string = get_input_string(output, withBox);
+    int num = string ? atoi(string) : -1;
+    free(string);
+    return num;
+}
 
-    return atoi(buffer);
+void print_input_box(const int length) {
+    printf("\n╔═");
+    for (register unsigned int i = 0; i < length; ++ i) {
+        printf("═");
+    }
+    printf("═╗\n");
+    
+    printf("║ ");
+    for (register unsigned int i = 0; i < length; ++ i) {
+        printf(" ");
+    }
+    printf(" ║\n");
+    
+    printf("╚═");
+    for (register unsigned int i = 0; i < length; ++ i) {
+        printf("═");
+    }
+    printf("═╝\n");
+}
+
+void clear_console() {
+#if defined __WIN32__ || defined _MSC_VER
+    system("cls");
+#elif defined __APPLE__ || defined __unix__
+    system("clear");
+#endif
 }
 
 char *allocate_string(const char *buffer) {
@@ -108,29 +139,45 @@ char **allocate_strings(const char **buffer, const int stringCount) {
     return strings;
 }
 
-void println_string_cells_with_token(const char **string, const int stringCount , const char token, const int *tokenLength, const char border) {
+void println_string_cells_with_token(const char **string,
+                                     const int stringCount,
+                                     const char *token,
+                                     const int *tokenLengths,
+                                     const char *leftBorder,
+                                     const char *centerBorder,
+                                     const char *rightBorder){
+    printf("%s", leftBorder);
     for (int i = 0; i < stringCount; ++ i) {
-        printf("%c", border);
         
         if (string) {
-            print_token(token, (tokenLength[i] - (int)strlen(string[i]) - 1) / 2);
+            print_token(token, (tokenLengths[i] - (int)strlen(string[i]) - 1) / 2);
             printf("%s", string[i]);
-            print_token(token, (tokenLength[i] - (int)strlen(string[i])) / 2);
+            print_token(token, (tokenLengths[i] - (int)strlen(string[i])) / 2);
         }
         else {
-            print_token('-', tokenLength[i]);
+            print_token(token, tokenLengths[i] - 1);
         }
         
-    }   printf("%c\n", border);
+        if (i < stringCount - 1)
+            printf("%s", centerBorder);
+    }   printf("%s\n", rightBorder);
 }
 
-void println_string_with_token(const char *string, const char token, const int tokenLength, const char border) {
-    print_string_with_token(string, token, tokenLength, border);
-    puts("");
+void println_string_with_token(const char *string,
+                               const char *token,
+                               const int tokenLength,
+                               const char *leftBorder,
+                               const char *rightBorder) {
+    print_string_with_token(string, token, tokenLength, leftBorder, rightBorder);
+    printf("\n");
 }
 
-void print_string_with_token(const char *string, const char token, const int tokenLength, const char border) {
-    printf("%c", border);
+void print_string_with_token(const char *string,
+                             const char *token,
+                             const int tokenLength,
+                             const char *leftBorder,
+                             const char *rightBorder) {
+    printf("%s", leftBorder);
     
     if (string) {
         print_token(token, (tokenLength - (int)strlen(string) - 1) / 2);
@@ -141,17 +188,17 @@ void print_string_with_token(const char *string, const char token, const int tok
         print_token(token, tokenLength - 1);
     }
     
-    printf("%c", border);
+    printf("%s", rightBorder);
 }
 
-void println_token(const char token, const unsigned int length) {
+void println_token(const char *token, const unsigned int length) {
     print_token(token, length);
-    puts("");
+    printf("\n");
 }
 
-void print_token(const char token, const unsigned int length) {
+void print_token(const char *token, const unsigned int length) {
     for (unsigned register int i = 0; i < length; ++ i)
-        printf("%c", token);
+        printf("%s", token);
 }
 
 
@@ -215,7 +262,50 @@ void print_moving_string(const char *string, const int flowDirection, const int 
     printf("\r");
     for (register unsigned int i = 0; i <= boxLength; ++ i)
         printf("%c", ' ');
+
     printf("\r");
     rewind(stdout);
     _sleep(1000 * 0.2);
 }
+
+void gotoxy(int x, int y) {
+#if defined __WIN32__ || defined _MSC_VER
+
+	COORD coord;
+	coord.X = x;
+	coord.Y = y;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+
+#elif defined __APPLE__ || defined __unix__
+
+	printf("\033[%d;%dH", x, y);
+
+#endif
+}
+
+void movexy(int x, int y) {
+#if defined __WIN32__ || defined _MSC_VER
+
+	CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbiInfo);
+	gotoxy(csbiInfo.dwCursorPosition.X + x, csbiInfo.dwCursorPosition.Y + y);
+
+#elif defined __APPLE__ || defined __unix__
+
+	if (x > 0) {
+		printf("\033[%dC", x);
+	}
+	else if (x < 0) {
+		printf("\033[%dD", x * -1);
+	}
+
+	if (y > 0) {
+		printf("\033[%dB", y);
+	}
+	else if (y < 0) {
+		printf("\033[%dA", y * -1);
+	}
+
+#endif
+}
+
