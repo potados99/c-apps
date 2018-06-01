@@ -111,7 +111,7 @@ void start_main_loop(SalesList list) {
 
 void start_edit_loop(SalesList list) {
     int targetIndex = get_input_number("Enter the index of part you want to edit: ", WITHOUT_BOX);
-    while ((targetIndex < 0) || (targetIndex >= list->numberOfParts)) {
+    while ((targetIndex < 0) || (targetIndex >= list->numberOfParts) || targetIndex == INT_INPUT_ERROR) {
         movexy(0, -2);
         printf("\r");
         printf("**Enter proper index. \n");

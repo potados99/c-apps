@@ -91,7 +91,17 @@ char *get_input_string(const char *output, const int withBox) {
 
 int get_input_number(const char *output, const int withBox) {
     char *string = get_input_string(output, withBox);
-    int num = string ? atoi(string) : -1;
+    int num = 0;
+
+    if ((atoi(string) == 0) && strcmp(string, "0") != 0) {
+        // atoi(string) is 0 and the string is not "0"
+        // So, string is NULL or contains non integer
+        num = INT_INPUT_ERROR;
+    }
+    else {
+        num = atoi(string);
+    }
+
     free(string);
     return num;
 }
