@@ -49,6 +49,22 @@
 #define WITH_BOX 1
 #define WITHOUT_BOX 0
 
+#define BOX_CORNER_TOP_LEFT "╔"
+#define BOX_CORNER_TOP_RIGHT "╗"
+#define BOX_CORNER_BOTTOM_LEFT "╚"
+#define BOX_CORNER_BOTTOM_RIGHT "╝"
+
+#define BOX_EDGE_HORIZONTAL "═"
+#define BOX_EDGE_VERTICAL "║"
+
+#define BOX_INTER_HORIZONTAL_TOP "╩"
+#define BOX_INTER_HORIZONTAL_DOWN "╦"
+
+#define BOX_INTER_VERTICAL_LEFT "╣"
+#define BOX_INTER_VERTICAL_RIGHT "╠"
+
+#define BOX_INTER_CROSS "╬"
+
 #define True 1
 #define False 0
 

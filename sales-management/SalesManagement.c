@@ -146,7 +146,8 @@ void start_edit_loop(SalesList list) {
         
         switch (selected) {
             case 1:
-                if ((intBuffer = get_input_number("Enter new product number: ", WITH_BOX)) != -99) {
+                intBuffer = get_input_number("Enter new product number: ", WITH_BOX);
+                if (intBuffer != -99) {
                     part->partNum = intBuffer;
                 }
                 else {
@@ -159,7 +160,8 @@ void start_edit_loop(SalesList list) {
                 break;
             case 2:
                 oldName = part->partName;
-                if (atoi(charBuffer = get_input_string("Enter new product name: ", WITH_BOX)) != -99) {
+                charBuffer = get_input_string("Enter new product name: ", WITH_BOX);
+                if (charBuffer && atoi(charBuffer) != -99) {
                     part->partName = charBuffer;
                 }
                 else {
@@ -172,7 +174,8 @@ void start_edit_loop(SalesList list) {
                 free(oldName);
                 break;
             case 3:
-                if (atoi(charBuffer = get_input_string("Enter new specification: ", WITH_BOX)) != -99) {
+                charBuffer = get_input_string("Enter new specification: ", WITH_BOX);
+                if (charBuffer && atoi(charBuffer) != -99) {
                     free(part->specification);
                     part->specification = charBuffer;
                 }
@@ -185,7 +188,8 @@ void start_edit_loop(SalesList list) {
                 print_sales_list(list, targetIndex);
                 break;
             case 4:
-                if ((intBuffer = get_input_number("Enter new price: ", WITH_BOX)) != -99) {
+                intBuffer = get_input_number("Enter new price: ", WITH_BOX);
+                if (intBuffer != -99) {
                     part->price = intBuffer;
                 }
                 else {
@@ -198,7 +202,8 @@ void start_edit_loop(SalesList list) {
                 print_sales_list(list, targetIndex);
                 break;
             case 5:
-                if ((intBuffer = get_input_number("Enter new sales: ", WITH_BOX)) != -99) {
+                intBuffer = get_input_number("Enter new sales: ", WITH_BOX);
+                if (intBuffer != -99) {
                     part->sales = intBuffer;
                 }
                 else {
@@ -238,31 +243,31 @@ void create_new_part_from_input(SalesList list) {
     int sales;
     
     partNumber = get_input_number("Enter part number: ", WITH_BOX);
-    if (partNumber == -99) {
+    if (partNumber == INT_INPUT_ERROR || partNumber == -99) {
         puts("Canceled");
         return;
     }
     
     partName = get_input_string("Enter part name: ", WITH_BOX);
-    if (atoi(partName) == -99) {
+    if (!partName || atoi(partName) == -99) {
         puts("Canceled");
         return;
     }
     
     specification = get_input_string("Enter specification: ", WITH_BOX);
-    if (atoi(specification) == -99) {
+    if (!specification || atoi(specification) == -99) {
         puts("Canceled");
         return;
     }
     
     price = get_input_number("Enter price: ", WITH_BOX);
-    if (price == -99) {
+    if (price == INT_INPUT_ERROR || price == -99) {
         puts("Canceled");
         return;
     }
     
     sales = get_input_number("Enter sales: ", WITH_BOX);
-    if (sales == -99) {
+    if (sales == INT_INPUT_ERROR || sales == -99) {
         puts("Canceled");
         return;
     }

@@ -73,10 +73,12 @@ char *get_input_string(const char *output, const int withBox) {
     }
     
     rewind(stdin);
-    fgets(buffer, _BUFFER_SIZE - 1, stdin);
+    if (fgets(buffer, _BUFFER_SIZE - 1, stdin) == NULL) {
+        return NULL;
+    }
     rewind(stdin);
 
-    while (strlen(buffer) == 1) {
+    if (strlen(buffer) == 1) {
         return NULL;
     }
     buffer[strlen(buffer) - 1] = '\0';
@@ -93,37 +95,42 @@ int get_input_number(const char *output, const int withBox) {
     char *string = get_input_string(output, withBox);
     int num = 0;
 
-    if ((atoi(string) == 0) && strcmp(string, "0") != 0) {
-        // atoi(string) is 0 and the string is not "0"
-        // So, string is NULL or contains non integer
-        num = INT_INPUT_ERROR;
+    if (string) {
+        if ((atoi(string) == 0) && strcmp(string, "0") != 0) {
+            // atoi(string) is 0 and the string is not "0"
+            // So, string contains non integer
+            num = INT_INPUT_ERROR;
+        }
+        else {
+            num = atoi(string);
+        }
+        free(string);
     }
     else {
-        num = atoi(string);
+        num = INT_INPUT_ERROR;
     }
 
-    free(string);
     return num;
 }
 
 void print_input_box(const int length) {
-    printf("\n╔═");
+    printf("\n%s", BOX_CORNER_TOP_LEFT);
     for (register unsigned int i = 0; i < length; ++ i) {
-        printf("═");
+        printf("%s", BOX_EDGE_HORIZONTAL);
     }
-    printf("═╗\n");
+    printf("%s\n", BOX_CORNER_TOP_RIGHT);
     
-    printf("║ ");
+    printf("%s", BOX_EDGE_VERTICAL);
     for (register unsigned int i = 0; i < length; ++ i) {
         printf(" ");
     }
-    printf(" ║\n");
+    printf("%s\n", BOX_EDGE_VERTICAL);
     
-    printf("╚═");
+    printf("%s", BOX_CORNER_BOTTOM_LEFT);
     for (register unsigned int i = 0; i < length; ++ i) {
-        printf("═");
+        printf("%s", BOX_EDGE_HORIZONTAL);
     }
-    printf("═╝\n");
+    printf("%s\n", BOX_CORNER_BOTTOM_RIGHT);
 }
 
 void clear_console() {
