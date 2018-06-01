@@ -64,6 +64,7 @@
 
 static inline void intro() {
 #if defined __WIN32__ || defined _MSC_VER
+    system("chcp 65001");
     puts("\n> Programming assignment #3");
     puts("> Sales-management\n");
     rewind(stdout);
