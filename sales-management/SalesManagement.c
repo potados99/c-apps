@@ -260,6 +260,7 @@ void create_new_part_from_input(SalesList list) {
     printf("\n");
     if (!specification || atoi(specification) == -99) {
         puts("Canceled");
+        free(partName);
         return;
     }
     
@@ -267,6 +268,8 @@ void create_new_part_from_input(SalesList list) {
     printf("\n");
     if (price == INT_INPUT_ERROR || price == -99) {
         puts("Canceled");
+        free(partName);
+        free(specification);
         return;
     }
     
@@ -274,6 +277,8 @@ void create_new_part_from_input(SalesList list) {
     printf("\n");
     if (sales == INT_INPUT_ERROR || sales == -99) {
         puts("Canceled");
+        free(partName);
+        free(specification);
         return;
     }
     
