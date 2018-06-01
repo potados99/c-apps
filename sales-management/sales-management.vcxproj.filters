@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ioutil.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -27,15 +24,18 @@
     <ClCompile Include="SalesManagement.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\ioutil\ioutil.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ioutil.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Part.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SalesManagement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ioutil\ioutil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

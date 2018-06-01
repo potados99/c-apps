@@ -98,14 +98,19 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\ioutil</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ioutil.c" />
+    <ClCompile Include="..\ioutil\ioutil.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="Part.c" />
     <ClCompile Include="SalesManagement.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ioutil.h" />
+    <ClInclude Include="..\ioutil\ioutil.h" />
     <ClInclude Include="Part.h" />
     <ClInclude Include="SalesManagement.h" />
   </ItemGroup>
