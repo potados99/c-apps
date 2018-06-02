@@ -147,7 +147,7 @@ void start_edit_loop(SalesList list) {
         switch (selected) {
             case 1:
                 intBuffer = get_input_number("Enter new product number: ", WITH_BOX);
-                if (intBuffer != -99) {
+                if (intBuffer != INT_INPUT_ERROR && intBuffer != -99) {
                     part->partNum = intBuffer;
                 }
                 else {
@@ -189,7 +189,7 @@ void start_edit_loop(SalesList list) {
                 break;
             case 4:
                 intBuffer = get_input_number("Enter new price: ", WITH_BOX);
-                if (intBuffer != -99) {
+                if (intBuffer != INT_INPUT_ERROR && intBuffer != -99) {
                     part->price = intBuffer;
                 }
                 else {
@@ -203,7 +203,7 @@ void start_edit_loop(SalesList list) {
                 break;
             case 5:
                 intBuffer = get_input_number("Enter new sales: ", WITH_BOX);
-                if (intBuffer != -99) {
+                if (intBuffer != INT_INPUT_ERROR && intBuffer != -99) {
                     part->sales = intBuffer;
                 }
                 else {
