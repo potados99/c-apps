@@ -407,7 +407,7 @@ void read_sales_list(const char *dataFilePath, SalesList list) {
     
     // if fopen returned NULL
     if (fp == NULL) {
-        fprintf(stderr, "File not exist.\n");
+        fprintf(stderr, "%s File not exist.\n", dataFilePath);
         exit(1);
     }
     

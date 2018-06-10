@@ -14,8 +14,8 @@
 #include "Part.h"
 #include "ioutil.h"
 
-#define _DEAULT_EXPORT_FILE_NAME "sales_list_output.txt"
-#define _DEAULT_DATA_FILE_NAME "sales_list.txt"
+#define _DEAULT_EXPORT_FILE_NAME "part_report.txt"
+#define _DEAULT_DATA_FILE_NAME "part.txt"
 
 
 /*
@@ -69,7 +69,7 @@
 static inline void intro() {
 #if defined __WIN32__ || defined _MSC_VER
     system("chcp 65001");
-    puts("\n> Programming assignment #3");
+    puts("\n> Programming assignment #4");
     puts("> Sales-management\n");
     rewind(stdout);
     _sleep(1000*0.4);
@@ -78,9 +78,9 @@ static inline void intro() {
     puts("> Name: Byeong Jun Song\n");
     rewind(stdout);
     _sleep(1000*0.4);
-    print_moving_string("Loading", STRING_FLOW_DIRECTION_LEFT, STRING_FLOW_SPEED_SLOW, _MAIN_MENU_WIDTH, ' ', '[', ']');
+    print_moving_string("Loading", STRING_FLOW_DIRECTION_LEFT, STRING_FLOW_SPEED_MID, _MAIN_MENU_WIDTH, ' ', '[', ']');
 #else
-    puts("\n> Programming assignment #3");
+    puts("\n> Programming assignment #4");
     puts("> Sales-management\n");
     print_moving_string("Loading", STRING_FLOW_DIRECTION_LEFT, STRING_FLOW_SPEED_FAST, _MAIN_MENU_WIDTH, ' ', '[', ']');
 #endif
@@ -121,35 +121,30 @@ int main(int argc, const char * argv[]) {
 
     SalesList myList = new_SalesList(colomnNames, columnSpaces);
 
-    add_to_list(myList, new_Part(1001, allocate_string("Hard disk"), allocate_string("NONE"), 135000, 0));
-    add_to_list(myList, new_Part(1002, allocate_string("CPU"), allocate_string("NONE"), 235000, 0));
-    add_to_list(myList, new_Part(1003, allocate_string("Main board"), allocate_string("NONE"), 122000, 0));
-    add_to_list(myList, new_Part(1004, allocate_string("Monitor"), allocate_string("NONE"), 260000, 0));
-    add_to_list(myList, new_Part(1005, allocate_string("DVD-RW"), allocate_string("NONE"), 73500, 0));
-
-
     const char *dataFilePath;
-
     const char *exportFilePath;
-    
     
     if (argc > 2) {
         dataFilePath = argv[1];
         exportFilePath = argv[2];
     }
     else if (argc > 1) {
-        static char cwd[128];
-        getcwd(cwd, sizeof(cwd));
+        char cwdExport[128];
+        getcwd(cwdExport, sizeof(cwdExport));
         
         dataFilePath = argv[1];
-        exportFilePath = join_path((cwd), _DEAULT_EXPORT_FILE_NAME);
+        exportFilePath = join_path((cwdExport), _DEAULT_EXPORT_FILE_NAME);
     }
     else {
-        static char cwd[128];
-        getcwd(cwd, sizeof(cwd));
+        char cwdData[128];
+        getcwd(cwdData, sizeof(cwdData));
         
-        dataFilePath = join_path((cwd), _DEAULT_DATA_FILE_NAME);
-        exportFilePath = join_path((cwd), _DEAULT_EXPORT_FILE_NAME);
+        dataFilePath = join_path((cwdData), _DEAULT_DATA_FILE_NAME);
+        
+        char cwdExport[128];
+        getcwd(cwdExport, sizeof(cwdExport));
+        
+        exportFilePath = join_path((cwdExport), _DEAULT_EXPORT_FILE_NAME);
     }
     
     start_main_loop(dataFilePath, exportFilePath, myList);
