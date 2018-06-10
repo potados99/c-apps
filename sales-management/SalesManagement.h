@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include "Part.h"
 #include "ioutil.h"
+#include "linkedStack.h"
 
 #define _LIST_ALL 0x01000000
 #define _LIST_LAST 0x10000000
@@ -38,13 +39,16 @@ void _display_edit_menu(void);
 
 /* public */
 SalesList new_SalesList(const char **columnNames, const int *columnSpaces);
+void clear_list(SalesList list);
 void destructor(SalesList list);
-void start_main_loop(const char *filePath, SalesList list);
+void start_main_loop(const char *dataFilePath, const char *exportFilePath, SalesList list);
 void start_edit_loop(SalesList list);
 void create_new_part_from_input(SalesList list);
 void add_to_list(SalesList list, Part part);
 void print_sales_list(SalesList list, const unsigned int specificIndex);
-void export_sales_list(const char *filePath, SalesList list, const unsigned int specificIndex);
+void read_sales_list(const char *dataFilePath, SalesList list);
+void write_sales_list(const char *dataFilePath, SalesList list);
+void export_sales_list(const char *exportFilePath, SalesList list, const unsigned int specificIndex);
 
 #endif /* SalesManagement_h */
 
