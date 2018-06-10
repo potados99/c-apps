@@ -14,6 +14,8 @@
 #include "Part.h"
 #include "ioutil.h"
 
+#define _DEAULT_EXPORT_FILE_NAME "sales_list_output.txt"
+
 /*
  [Basic concept]
  Specification
@@ -123,7 +125,11 @@ int main(int argc, const char * argv[]) {
     add_to_list(myList, new_Part(1004, allocate_string("Monitor"), allocate_string("NONE"), 260000, 0));
     add_to_list(myList, new_Part(1005, allocate_string("DVD-RW"), allocate_string("NONE"), 73500, 0));
 
-    start_main_loop(myList);
+    static char cwd[128];
+    getcwd(cwd, sizeof(cwd));
+    const char *filePath = (argc > 1) ? argv[1] : join_path((cwd), _DEAULT_EXPORT_FILE_NAME) ;
+    
+    start_main_loop(filePath, myList);
     
     destructor(myList);
     

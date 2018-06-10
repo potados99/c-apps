@@ -16,7 +16,7 @@
  
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
---*/
+ --*/
 
 #ifndef ioutil_h
 #define ioutil_h
@@ -26,11 +26,13 @@
 #include <string.h>
 
 #if defined __APPLE__ || defined __unix__
+#define _POSIX_SOURCE
 #include <unistd.h>
 #define _sleep(x) usleep(1000 * (x));
 
 #elif defined __WIN32__ || defined _MSC_VER
 #include <windows.h>
+#include <direct.h>
 #define _sleep(x) Sleep(x);
 #endif
 
@@ -93,11 +95,29 @@ void println_string_cells_with_token(const char **string,
                                      const char *centerBorder,
                                      const char *rightBorder);
 
+void fprintln_string_cells_with_token(FILE *fp,
+                                      const char **string,
+                                      const int stringCount,
+                                      const char *token,
+                                      const int *tokenLengths,
+                                      const char *leftBorder,
+                                      const char *centerBorder,
+                                      const char *rightBorder);
+
+
 void println_string_with_token(const char *string,
                                const char *token,
                                const int tokenLength,
                                const char *leftBorder,
                                const char *rightBorder);
+
+void fprintln_string_with_token(FILE *fp,
+                                const char *string,
+                                const char *token,
+                                const int tokenLength,
+                                const char *leftBorder,
+                                const char *rightBorder);
+
 
 void print_string_with_token(const char *string,
                              const char *token,
@@ -105,8 +125,20 @@ void print_string_with_token(const char *string,
                              const char *leftBorder,
                              const char *rightBorder);
 
+void fprint_string_with_token(FILE *fp,
+                              const char *string,
+                              const char *token,
+                              const int tokenLength,
+                              const char *leftBorder,
+                              const char *rightBorder);
+
+
 void println_token(const char *token, const unsigned int length);
+void fprintln_token(FILE *fp, const char *token, const unsigned int length);
+
 void print_token(const char *token, const unsigned int length);
+void fprint_token(FILE *fp, const char *token, const unsigned int length);
+
 
 void wait_for_enter(void);
 
@@ -114,5 +146,7 @@ void print_moving_string(const char *string, const int flowDirection, const int 
 
 void gotoxy(int x, int y);
 void movexy(int x, int y);
+
+char *join_path(char *dest, const char *path);
 
 #endif /* ioutil_h */

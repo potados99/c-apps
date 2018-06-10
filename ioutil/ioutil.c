@@ -180,6 +180,32 @@ void println_string_cells_with_token(const char **string,
     }   printf("%s\n", rightBorder);
 }
 
+void fprintln_string_cells_with_token(FILE *fp,
+                                      const char **string,
+                                     const int stringCount,
+                                     const char *token,
+                                     const int *tokenLengths,
+                                     const char *leftBorder,
+                                     const char *centerBorder,
+                                     const char *rightBorder){
+    fprintf(fp, "%s", leftBorder);
+    for (int i = 0; i < stringCount; ++ i) {
+        
+        if (string) {
+            fprint_token(fp, token, (tokenLengths[i] - (int)strlen(string[i]) - 1) / 2);
+            fprintf(fp, "%s", string[i]);
+            fprint_token(fp, token, (tokenLengths[i] - (int)strlen(string[i])) / 2);
+        }
+        else {
+            fprint_token(fp, token, tokenLengths[i] - 1);
+        }
+        
+        if (i < stringCount - 1)
+            fprintf(fp, "%s", centerBorder);
+    }   fprintf(fp, "%s\n", rightBorder);
+}
+
+
 void println_string_with_token(const char *string,
                                const char *token,
                                const int tokenLength,
@@ -187,6 +213,16 @@ void println_string_with_token(const char *string,
                                const char *rightBorder) {
     print_string_with_token(string, token, tokenLength, leftBorder, rightBorder);
     printf("\n");
+}
+
+void fprintln_string_with_token(FILE *fp,
+                                const char *string,
+                               const char *token,
+                               const int tokenLength,
+                               const char *leftBorder,
+                               const char *rightBorder) {
+    fprint_string_with_token(fp, string, token, tokenLength, leftBorder, rightBorder);
+    fprintf(fp, "\n");
 }
 
 void print_string_with_token(const char *string,
@@ -208,9 +244,34 @@ void print_string_with_token(const char *string,
     printf("%s", rightBorder);
 }
 
+void fprint_string_with_token(FILE *fp,
+                              const char *string,
+                             const char *token,
+                             const int tokenLength,
+                             const char *leftBorder,
+                             const char *rightBorder) {
+    fprintf(fp, "%s", leftBorder);
+    
+    if (string) {
+        fprint_token(fp, token, (tokenLength - (int)strlen(string) - 1) / 2);
+        fprintf(fp, "%s", string);
+        fprint_token(fp, token, (tokenLength - (int)strlen(string)) / 2);
+    }
+    else {
+        fprint_token(fp, token, tokenLength - 1);
+    }
+    
+    fprintf(fp, "%s", rightBorder);
+}
+
 void println_token(const char *token, const unsigned int length) {
     print_token(token, length);
     printf("\n");
+}
+
+void fprintln_token(FILE *fp, const char *token, const unsigned int length) {
+    fprint_token(fp, token, length);
+    fprintf(fp, "\n");
 }
 
 void print_token(const char *token, const unsigned int length) {
@@ -218,6 +279,10 @@ void print_token(const char *token, const unsigned int length) {
         printf("%s", token);
 }
 
+void fprint_token(FILE *fp, const char *token, const unsigned int length) {
+    for (unsigned register int i = 0; i < length; ++ i)
+        fprintf(fp, "%s", token);
+}
 
 void wait_for_enter() {
     rewind(stdin);
@@ -324,5 +389,18 @@ void movexy(int x, int y) {
 	}
 
 #endif
+}
+
+char *join_path(char *dest, const char *path) {
+#if defined __WIN32__ || defined _MSC_VER
+    const char *divider = "\\";
+#elif defined __APPLE__ || defined __unix__
+    const char *divider = "/";
+#endif
+    
+    strcat(dest, divider);
+    strcat(dest, path);
+    
+    return dest;
 }
 
