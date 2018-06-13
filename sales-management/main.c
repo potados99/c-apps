@@ -17,6 +17,7 @@
 #define _DEAULT_EXPORT_FILE_NAME "part_report.txt"
 #define _DEAULT_DATA_FILE_NAME "part.txt"
 
+#define _PATH_BUFFER_MAX 256
 
 /*
  [Basic concept]
@@ -129,19 +130,19 @@ int main(int argc, const char * argv[]) {
         exportFilePath = argv[2];
     }
     else if (argc > 1) {
-        char cwdExport[128];
+        char cwdExport[_PATH_BUFFER_MAX];
         getcwd(cwdExport, sizeof(cwdExport));
         
         dataFilePath = argv[1];
         exportFilePath = join_path((cwdExport), _DEAULT_EXPORT_FILE_NAME);
     }
     else {
-        char cwdData[128];
+        char cwdData[_PATH_BUFFER_MAX];
         getcwd(cwdData, sizeof(cwdData));
         
         dataFilePath = join_path((cwdData), _DEAULT_DATA_FILE_NAME);
         
-        char cwdExport[128];
+        char cwdExport[_PATH_BUFFER_MAX];
         getcwd(cwdExport, sizeof(cwdExport));
         
         exportFilePath = join_path((cwdExport), _DEAULT_EXPORT_FILE_NAME);

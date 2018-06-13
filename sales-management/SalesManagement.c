@@ -83,7 +83,7 @@ void destructor(SalesList list) {
 
 void start_main_loop(const char *dataFilePath, const char *exportFilePath, SalesList list) {
     _display_main_menu();
-
+    
     int selected = 0;
     rewind(stdin);
     
@@ -157,7 +157,7 @@ void start_edit_loop(SalesList list) {
         
         clear_console();
         print_sales_list(list, targetIndex);
-
+        
         printf("\n");
         
         switch (selected) {
@@ -302,7 +302,7 @@ void create_new_part_from_input(SalesList list) {
     add_to_list(list, newPart);
     
     clear_console();
-
+    
     puts("\nAdded: ");
     print_sales_list(list, _LIST_LAST);
 }
@@ -334,7 +334,7 @@ void print_sales_list(SalesList list, const unsigned int specificIndex) {
     println_string_cells_with_token(list->colomnNames, _COLUMN_NUM, " ", list->colomnSpaces, "║", "║", "║");
     
     println_string_cells_with_token(NULL, _COLUMN_NUM, "═", list->colomnSpaces, "╠", "╬", "╣");
-
+    
     /* range setup */
     int begin = 0;
     int end = 0;
@@ -396,7 +396,7 @@ void print_sales_list(SalesList list, const unsigned int specificIndex) {
     }
     else {
         println_string_cells_with_token(NULL, _COLUMN_NUM, "═", list->colomnSpaces,"╚", "╩", "╝");
-
+        
     }
 }
 
@@ -436,7 +436,7 @@ void read_sales_list(const char *dataFilePath, SalesList list) {
     
     // for searching, first position is 0
     int pos = 0;
-
+    
     // if first character is not {, return
     if (buffer[pos] != '{') {
         fprintf(stderr, "File is not JSON.\n");
@@ -445,38 +445,46 @@ void read_sales_list(const char *dataFilePath, SalesList list) {
     
     // clear all contents in the list
     clear_list(list);
-
+    
     // add first element
-    add_to_list(list, new_Part(0, allocate_string("NONE"), allocate_string("NONE"), 0, 0));
-
+    
     int expectingVal = 0;
-    int itemIndex = 0;
+    int expectingObject = 1;
+    int objectOpened = 0;
     
     char *currentKey = NULL;
     char *currentVal = NULL;
     
     Stack stack = new_Stack();
-
+    
     while (pos < fileSize) {
         
         switch (buffer[pos]) {
             case '{':
-                Stack_push(stack, '{');
-                expectingVal = 0;
+                if (expectingObject) {
+                    Stack_push(stack, '{');
+                    if (Stack_size(stack) == 2) {
+                        objectOpened = 1;
+                        expectingVal = 0;
+                        add_to_list(list, new_Part(0, allocate_string("NONE"), allocate_string("NONE"), 0, 0));
+                    }
+                } else {
+                    fprintf(stderr, "File is broken. expected {\n");
+                }
                 break;
                 
             case '}':
                 if (Stack_pop(stack) == '{') {
-                    // good
+                    objectOpened = 0;
                 }
                 else {
                     fprintf(stderr, "File is broken. expected }\n");
                 }
                 break;
-        
+                
             case '"': {
                 char *begin = buffer + pos + 1;
-
+                
                 char *end = strchr(begin, '"');
                 
                 if (end == NULL)
@@ -485,34 +493,35 @@ void read_sales_list(const char *dataFilePath, SalesList list) {
                 int stringLength = (int)end - (int)begin;
                 
                 if (expectingVal) {
-
+                    
                     currentVal = (char *)malloc(stringLength + 1);
                     memset(currentVal, 0, stringLength + 1);
                     memcpy(currentVal, begin, stringLength);
                     
                     if (!strcmp(currentKey, "Number")) {
-                        list->parts[itemIndex]->partNum = atoi(currentVal);
+                        list->parts[list->numberOfParts - 1]->partNum = atoi(currentVal);
                         free(currentVal);
                     }
                     else if (!strcmp(currentKey, "Name")) {
-                        list->parts[itemIndex]->partName = currentVal;
+                        free(list->parts[list->numberOfParts - 1]->partName);
+                        list->parts[list->numberOfParts - 1]->partName = currentVal;
                     }
                     else if (!strcmp(currentKey, "Specification")) {
-                        list->parts[itemIndex]->specification = currentVal;
+                        free(list->parts[list->numberOfParts - 1]->specification);
+                        list->parts[list->numberOfParts - 1]->specification = currentVal;
                     }
                     else if (!strcmp(currentKey, "Price")) {
-                        list->parts[itemIndex]->price = atoi(currentVal);
+                        list->parts[list->numberOfParts - 1]->price = atoi(currentVal);
                         free(currentVal);
                     }
                     else if (!strcmp(currentKey, "Sales")) {
-                        list->parts[itemIndex]->sales = atoi(currentVal);
+                        list->parts[list->numberOfParts - 1]->sales = atoi(currentVal);
                         free(currentVal);
                     }
                     else if (!strcmp(currentKey, "Revenue")) {
-                        list->parts[itemIndex]->revenue = atoi(currentVal);
+                        list->parts[list->numberOfParts - 1]->revenue = atoi(currentVal);
                         free(currentVal);
                     }
-                    expectingVal = 0;
                 }
                 else {
                     currentKey = (char *)malloc(stringLength + 1);
@@ -524,8 +533,11 @@ void read_sales_list(const char *dataFilePath, SalesList list) {
                 break;
                 
             case ',':
-                add_to_list(list, new_Part(0, allocate_string("NONE"), allocate_string("NONE"), 0, 0));
-                itemIndex += 1;
+                if (objectOpened) {
+                    expectingVal = 0; // expection key
+                } else {
+                    expectingObject = 1;
+                }
                 break;
                 
             case ':':
@@ -553,31 +565,31 @@ void write_sales_list(const char *dataFilePath, SalesList list) {
         fprintf(fp, "Number");
         fprintf(fp, "\": \"");
         fprintf(fp, "%d", list->parts[i]->partNum);
-        fprintf(fp, "\"\n");
+        fprintf(fp, "\", \n");
         
         fprintf(fp, "        \"");
         fprintf(fp, "Name");
         fprintf(fp, "\": \"");
         fprintf(fp, "%s", list->parts[i]->partName);
-        fprintf(fp, "\"\n");
+        fprintf(fp, "\", \n");
         
         fprintf(fp, "        \"");
         fprintf(fp, "Specification");
         fprintf(fp, "\": \"");
         fprintf(fp, "%s", list->parts[i]->specification);
-        fprintf(fp, "\"\n");
+        fprintf(fp, "\", \n");
         
         fprintf(fp, "        \"");
         fprintf(fp, "Price");
         fprintf(fp, "\": \"");
         fprintf(fp, "%d", list->parts[i]->price);
-        fprintf(fp, "\"\n");
+        fprintf(fp, "\", \n");
         
         fprintf(fp, "        \"");
         fprintf(fp, "Sales");
         fprintf(fp, "\": \"");
         fprintf(fp, "%d", list->parts[i]->sales);
-        fprintf(fp, "\"\n");
+        fprintf(fp, "\", \n");
         
         fprintf(fp, "        \"");
         fprintf(fp, "Revenue");
@@ -591,7 +603,7 @@ void write_sales_list(const char *dataFilePath, SalesList list) {
         fprintf(fp, "\n");
     }
     fprintf(fp, "}");
-
+    
     fclose(fp);
 }
 
@@ -696,5 +708,3 @@ void export_sales_list(const char *exportFilePath, SalesList list, const unsigne
 //  ID: 201701562
 //  Name: Byeong Jun Song
 //
-
-

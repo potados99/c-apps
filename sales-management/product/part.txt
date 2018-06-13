@@ -1,50 +1,58 @@
 {
     {
-        "Number": "1001"
-        "Name": "Hard disk"
-        "Specification": "SSD 256GB"
-        "Price": "135000"
-        "Sales": "2"
-        "Revenue": "270000"
-    },
-    {
-        "Number": "1002"
-        "Name": "CPU"
-        "Specification": "Core i5 3.1GHz"
-        "Price": "235000"
-        "Sales": "3"
-        "Revenue": "705000"
-    },
-    {
-        "Number": "1003"
-        "Name": "Main board"
-        "Specification": "Apple"
-        "Price": "122000"
-        "Sales": "1"
-        "Revenue": "122000"
-    },
-    {
-        "Number": "1004"
-        "Name": "Monitor"
-        "Specification": "2560 x 1600"
-        "Price": "260000"
-        "Sales": "4"
-        "Revenue": "1040000"
-    },
-    {
-        "Number": "1005"
-        "Name": "DVD-RW"
-        "Specification": "No information"
-        "Price": "73500"
-        "Sales": "0"
+        "Number": "1001", 
+        "Name": "Hard disk", 
+        "Specification": "NONE", 
+        "Price": "135000", 
+        "Sales": "0", 
         "Revenue": "0"
     },
     {
-        "Number": "1009"
-        "Name": "Newly added"
-        "Specification": "File write test"
-        "Price": "1024"
-        "Sales": "128"
+        "Number": "1002", 
+        "Name": "CPU", 
+        "Specification": "NONE", 
+        "Price": "235000", 
+        "Sales": "0", 
+        "Revenue": "0"
+    },
+    {
+        "Number": "1003", 
+        "Name": "Main board", 
+        "Specification": "NONE", 
+        "Price": "122000", 
+        "Sales": "0", 
+        "Revenue": "0"
+    },
+    {
+        "Number": "1004", 
+        "Name": "Monitor", 
+        "Specification": "NONE", 
+        "Price": "260000", 
+        "Sales": "0", 
+        "Revenue": "0"
+    },
+    {
+        "Number": "1005", 
+        "Name": "DVD-RW", 
+        "Specification": "NONE", 
+        "Price": "73500", 
+        "Sales": "0", 
+        "Revenue": "0"
+    },
+    {
+        "Number": "1009", 
+        "Name": "Newly added", 
+        "Specification": "file write test", 
+        "Price": "1024", 
+        "Sales": "128", 
         "Revenue": "131072"
+    },
+    {
+        "Number": "1010", 
+        "Name": "Updated", 
+        "Specification": "JSON like support", 
+        "Price": "2400", 
+        "Sales": "1", 
+        "Revenue": "2400"
     }
 }
