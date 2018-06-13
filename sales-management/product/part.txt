@@ -2,7 +2,7 @@
     {
         "Number": "1001", 
         "Name": "Hard disk", 
-        "Specification": "NONE", 
+        "Specification": "Big", 
         "Price": "135000", 
         "Sales": "0", 
         "Revenue": "0"
@@ -10,7 +10,7 @@
     {
         "Number": "1002", 
         "Name": "CPU", 
-        "Specification": "NONE", 
+        "Specification": "Fast", 
         "Price": "235000", 
         "Sales": "0", 
         "Revenue": "0"
@@ -18,7 +18,7 @@
     {
         "Number": "1003", 
         "Name": "Main board", 
-        "Specification": "NONE", 
+        "Specification": "Cool", 
         "Price": "122000", 
         "Sales": "0", 
         "Revenue": "0"
@@ -26,7 +26,7 @@
     {
         "Number": "1004", 
         "Name": "Monitor", 
-        "Specification": "NONE", 
+        "Specification": "Wide", 
         "Price": "260000", 
         "Sales": "0", 
         "Revenue": "0"
@@ -34,7 +34,7 @@
     {
         "Number": "1005", 
         "Name": "DVD-RW", 
-        "Specification": "NONE", 
+        "Specification": "Fast", 
         "Price": "73500", 
         "Sales": "0", 
         "Revenue": "0"
@@ -42,7 +42,7 @@
     {
         "Number": "1009", 
         "Name": "Newly added", 
-        "Specification": "file write test", 
+        "Specification": "File write test", 
         "Price": "1024", 
         "Sales": "128", 
         "Revenue": "131072"
