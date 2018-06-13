@@ -54,5 +54,13 @@
         "Price": "2400", 
         "Sales": "1", 
         "Revenue": "2400"
+    },
+    {
+        "Number": "1011", 
+        "Name": "Optimized", 
+        "Specification": "Shorten code", 
+        "Price": "3001", 
+        "Sales": "1", 
+        "Revenue": "3001"
     }
 }

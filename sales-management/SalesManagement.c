@@ -13,27 +13,27 @@
 #include "SalesManagement.h"
 
 void _display_main_menu() {
-    println_string_with_token(" Main menu ", "═", _MAIN_MENU_WIDTH, "╔", "╗");
-    println_string_with_token("1. Show sales data", " ", _MAIN_MENU_WIDTH, "║", "║");
-    println_string_with_token("2. Add new part   ", " ", _MAIN_MENU_WIDTH, "║", "║");
-    println_string_with_token("3. Edit part info ", " ", _MAIN_MENU_WIDTH, "║", "║");
-    println_string_with_token("4. Export to file ", " ", _MAIN_MENU_WIDTH, "║", "║");
-    println_string_with_token(NULL, "═", _MAIN_MENU_WIDTH, "╠", "╣");
-    println_string_with_token("5. Exit           ", " ", _MAIN_MENU_WIDTH, "║", "║");
-    println_string_with_token(NULL, "═",_MAIN_MENU_WIDTH, "╚", "╝");
+    fprintln_string_with_token(stdout, " Main menu ", "═", _MAIN_MENU_WIDTH, "╔", "╗");
+    fprintln_string_with_token(stdout, "1. Show sales data", " ", _MAIN_MENU_WIDTH, "║", "║");
+    fprintln_string_with_token(stdout, "2. Add new part   ", " ", _MAIN_MENU_WIDTH, "║", "║");
+    fprintln_string_with_token(stdout, "3. Edit part info ", " ", _MAIN_MENU_WIDTH, "║", "║");
+    fprintln_string_with_token(stdout, "4. Export to file ", " ", _MAIN_MENU_WIDTH, "║", "║");
+    fprintln_string_with_token(stdout, NULL, "═", _MAIN_MENU_WIDTH, "╠", "╣");
+    fprintln_string_with_token(stdout, "5. Exit           ", " ", _MAIN_MENU_WIDTH, "║", "║");
+    fprintln_string_with_token(stdout, NULL, "═",_MAIN_MENU_WIDTH, "╚", "╝");
     printf("> ");
 }
 
 void _display_edit_menu() {
-    println_string_with_token(" Edit menu ", "═", _EDIT_MENU_WIDTH, "╔",  "╗");
-    println_string_with_token("1. Product number", " ", _EDIT_MENU_WIDTH, "║", "║");
-    println_string_with_token("2. Product name  ", " ", _EDIT_MENU_WIDTH, "║", "║");
-    println_string_with_token("3. Specification ", " ", _EDIT_MENU_WIDTH, "║", "║");
-    println_string_with_token("4. Price         ", " ", _EDIT_MENU_WIDTH, "║", "║");
-    println_string_with_token("5. Sales         ", " ", _EDIT_MENU_WIDTH, "║", "║");
-    println_string_with_token(NULL, "═", _MAIN_MENU_WIDTH, "╠", "╣");
-    println_string_with_token("6. Back          ", " ", _EDIT_MENU_WIDTH, "║", "║");
-    println_string_with_token(NULL, "═", _EDIT_MENU_WIDTH,"╚", "╝");
+    fprintln_string_with_token(stdout, " Edit menu ", "═", _EDIT_MENU_WIDTH, "╔",  "╗");
+    fprintln_string_with_token(stdout, "1. Product number", " ", _EDIT_MENU_WIDTH, "║", "║");
+    fprintln_string_with_token(stdout, "2. Product name  ", " ", _EDIT_MENU_WIDTH, "║", "║");
+    fprintln_string_with_token(stdout, "3. Specification ", " ", _EDIT_MENU_WIDTH, "║", "║");
+    fprintln_string_with_token(stdout, "4. Price         ", " ", _EDIT_MENU_WIDTH, "║", "║");
+    fprintln_string_with_token(stdout, "5. Sales         ", " ", _EDIT_MENU_WIDTH, "║", "║");
+    fprintln_string_with_token(stdout, NULL, "═", _MAIN_MENU_WIDTH, "╠", "╣");
+    fprintln_string_with_token(stdout, "6. Back          ", " ", _EDIT_MENU_WIDTH, "║", "║");
+    fprintln_string_with_token(stdout, NULL, "═", _EDIT_MENU_WIDTH,"╚", "╝");
     printf("> ");
 }
 
@@ -87,6 +87,8 @@ void start_main_loop(const char *dataFilePath, const char *exportFilePath, Sales
     int selected = 0;
     rewind(stdin);
     
+    FILE *exportFile;
+
     while ((selected = get_input_number(NULL, WITHOUT_BOX)) != 5) {
         rewind(stdin);
         
@@ -96,21 +98,27 @@ void start_main_loop(const char *dataFilePath, const char *exportFilePath, Sales
         clear_console();
         switch (selected) {
             case 1:
-                print_sales_list(list, _LIST_ALL);
+                fprint_sales_list(stdout, list, _LIST_ALL);
                 break;
             case 2:
                 create_new_part_from_input(list);
                 write_sales_list(dataFilePath, list);
                 break;
             case 3:
-                print_sales_list(list, _LIST_ALL);
+                fprint_sales_list(stdout, list, _LIST_ALL);
                 printf("\n");
                 start_edit_loop(list);
                 write_sales_list(dataFilePath, list);
                 escapedFromEdit = True;
                 break;
             case 4:
-                export_sales_list(exportFilePath, list, _LIST_ALL);
+                if ((exportFile = fopen(exportFilePath, "w")) == NULL) {
+                    fprintf(stderr, "File open failed");
+                } else {
+                    fprint_sales_list(exportFile, list, _LIST_ALL);
+                    fclose(exportFile);
+                    printf("Exported to %s\n", exportFilePath);
+                }
                 break;
             default:
                 puts("Wrong input.");
@@ -135,7 +143,7 @@ void start_edit_loop(SalesList list) {
     }
     
     clear_console();
-    print_sales_list(list, targetIndex);
+    fprint_sales_list(stdout, list, targetIndex);
     printf("\n");
     _display_edit_menu();
     
@@ -156,7 +164,7 @@ void start_edit_loop(SalesList list) {
         char *oldName;
         
         clear_console();
-        print_sales_list(list, targetIndex);
+        fprint_sales_list(stdout, list, targetIndex);
         
         printf("\n");
         
@@ -172,7 +180,7 @@ void start_edit_loop(SalesList list) {
                 }
                 
                 printf("\nThe new product number of %s is %d\n", part->partName, part->partNum);
-                print_sales_list(list, targetIndex);
+                fprint_sales_list(stdout, list, targetIndex);
                 break;
             case 2:
                 oldName = part->partName;
@@ -186,7 +194,7 @@ void start_edit_loop(SalesList list) {
                 }
                 
                 printf("\nThe new product name of %s is %s\n", oldName, part->partName);
-                print_sales_list(list, targetIndex);
+                fprint_sales_list(stdout, list, targetIndex);
                 free(oldName);
                 break;
             case 3:
@@ -201,7 +209,7 @@ void start_edit_loop(SalesList list) {
                 }
                 
                 printf("\nThe new specification of %s is %s\n", part->partName, part->specification);
-                print_sales_list(list, targetIndex);
+                fprint_sales_list(stdout, list, targetIndex);
                 break;
             case 4:
                 intBuffer = get_input_number("Enter new price: ", WITH_BOX);
@@ -215,7 +223,7 @@ void start_edit_loop(SalesList list) {
                 
                 printf("\nThe new price of %s is %d\n", part->partName, part->price);
                 part->revenue = part->price * part->sales;
-                print_sales_list(list, targetIndex);
+                fprint_sales_list(stdout, list, targetIndex);
                 break;
             case 5:
                 intBuffer = get_input_number("Enter new sales: ", WITH_BOX);
@@ -229,7 +237,7 @@ void start_edit_loop(SalesList list) {
                 
                 printf("\nThe new sales of %s is %d\n", part->partName, part->sales);
                 part->revenue = part->price * part->sales;
-                print_sales_list(list, targetIndex);
+                fprint_sales_list(stdout, list, targetIndex);
                 break;
             case 6:
                 breakMe = 1;
@@ -243,7 +251,7 @@ void start_edit_loop(SalesList list) {
             break;
         wait_for_enter();
         clear_console();
-        print_sales_list(list, targetIndex);
+        fprint_sales_list(stdout, list, targetIndex);
         printf("\n");
         _display_edit_menu();
         
@@ -304,7 +312,7 @@ void create_new_part_from_input(SalesList list) {
     clear_console();
     
     puts("\nAdded: ");
-    print_sales_list(list, _LIST_LAST);
+    fprint_sales_list(stdout, list, _LIST_LAST);
 }
 
 void add_to_list(SalesList list, Part part) {
@@ -312,14 +320,14 @@ void add_to_list(SalesList list, Part part) {
     list->parts[list->numberOfParts - 1] = part;
 }
 
-void print_sales_list(SalesList list, const unsigned int specificIndex) {
+void fprint_sales_list(FILE *exportFile, SalesList list, const unsigned int specificIndex) {
     /*
      In:
      [parts]: pointer of array of (Part).
      [length]: length of that array.
      [specificIndex]:
      Out: none
-     Description: print all fields of element in array of (Part).
+     Description: write all fields of element in array of (Part).
      view data in form of table.
      I used print_string_with_blank function to get center-aligned table.
      Non-string variables are converted to string to be processed as an element of char * array.
@@ -327,13 +335,13 @@ void print_sales_list(SalesList list, const unsigned int specificIndex) {
     
     if ((specificIndex > list->numberOfParts - 1) && !(specificIndex & (_LIST_LAST | _LIST_ALL)))
         return;
-    
+
     // print first row
-    println_string_cells_with_token(NULL, _COLUMN_NUM, "═", list->colomnSpaces, "╔", "╦", "╗");
+    fprintln_string_cells_with_token(exportFile, NULL, _COLUMN_NUM, "═", list->colomnSpaces, "╔", "╦", "╗");
     
-    println_string_cells_with_token(list->colomnNames, _COLUMN_NUM, " ", list->colomnSpaces, "║", "║", "║");
+    fprintln_string_cells_with_token(exportFile, list->colomnNames, _COLUMN_NUM, " ", list->colomnSpaces, "║", "║", "║");
     
-    println_string_cells_with_token(NULL, _COLUMN_NUM, "═", list->colomnSpaces, "╠", "╬", "╣");
+    fprintln_string_cells_with_token(exportFile, NULL, _COLUMN_NUM, "═", list->colomnSpaces, "╠", "╬", "╣");
     
     /* range setup */
     int begin = 0;
@@ -369,12 +377,12 @@ void print_sales_list(SalesList list, const unsigned int specificIndex) {
         const char *partProperties[_COLUMN_NUM] = { index, num, list->parts[i]->partName, list->parts[i]->specification, price, sales, revenue };
         
         // print all properties center-aligned, covered and divided by "|"
-        println_string_cells_with_token(partProperties, _COLUMN_NUM, " ", list->colomnSpaces, "║", "║" ,"║");
+        fprintln_string_cells_with_token(exportFile, partProperties, _COLUMN_NUM, " ", list->colomnSpaces, "║", "║" ,"║");
     }
     
     /* optional thing to do when printing all */
     if (specificIndex == _LIST_ALL) {
-        println_string_cells_with_token(NULL, _COLUMN_NUM, "═", list->colomnSpaces, "╠", "╬", "╣");
+        fprintln_string_cells_with_token(exportFile, NULL, _COLUMN_NUM, "═", list->colomnSpaces, "╠", "╬", "╣");
         char salesTotal[_SMALL_BUFFER_SIZE];
         char revenueTotal[_SMALL_BUFFER_SIZE];
         
@@ -390,12 +398,12 @@ void print_sales_list(SalesList list, const unsigned int specificIndex) {
         const char *partProperties[_COLUMN_NUM] = {"Total", "", "", "", "", salesTotal, revenueTotal};
         
         // print totals
-        println_string_cells_with_token(partProperties, _COLUMN_NUM, " ", list->colomnSpaces, "║", "║", "║");
+        fprintln_string_cells_with_token(exportFile, partProperties, _COLUMN_NUM, " ", list->colomnSpaces, "║", "║", "║");
         
-        println_string_cells_with_token(NULL, _COLUMN_NUM, "═", list->colomnSpaces,"╚", "╩", "╝");
+        fprintln_string_cells_with_token(exportFile, NULL, _COLUMN_NUM, "═", list->colomnSpaces,"╚", "╩", "╝");
     }
     else {
-        println_string_cells_with_token(NULL, _COLUMN_NUM, "═", list->colomnSpaces,"╚", "╩", "╝");
+        fprintln_string_cells_with_token(exportFile, NULL, _COLUMN_NUM, "═", list->colomnSpaces,"╚", "╩", "╝");
         
     }
 }
@@ -606,102 +614,6 @@ void write_sales_list(const char *dataFilePath, SalesList list) {
     
     fclose(fp);
 }
-
-void export_sales_list(const char *exportFilePath, SalesList list, const unsigned int specificIndex) {
-    /*
-     In:
-     [parts]: pointer of array of (Part).
-     [length]: length of that array.
-     [specificIndex]:
-     Out: none
-     Description: write all fields of element in array of (Part).
-     view data in form of table.
-     I used print_string_with_blank function to get center-aligned table.
-     Non-string variables are converted to string to be processed as an element of char * array.
-     */
-    
-    if ((specificIndex > list->numberOfParts - 1) && !(specificIndex & (_LIST_LAST | _LIST_ALL)))
-        return;
-    
-    FILE *fp;
-    
-    fp = fopen(exportFilePath, "w");
-    
-    // print first row
-    fprintln_string_cells_with_token(fp, NULL, _COLUMN_NUM, "═", list->colomnSpaces, "╔", "╦", "╗");
-    
-    fprintln_string_cells_with_token(fp, list->colomnNames, _COLUMN_NUM, " ", list->colomnSpaces, "║", "║", "║");
-    
-    fprintln_string_cells_with_token(fp, NULL, _COLUMN_NUM, "═", list->colomnSpaces, "╠", "╬", "╣");
-    
-    /* range setup */
-    int begin = 0;
-    int end = 0;
-    
-    if (specificIndex == _LIST_ALL) {
-        begin = 0;
-        end = list->numberOfParts;
-    } else if (specificIndex == _LIST_LAST) {
-        begin = list->numberOfParts - 1;
-        end = list->numberOfParts;
-    } else {
-        begin = specificIndex;
-        end = specificIndex + 1;
-    }
-    
-    /* convert all properties into string and print them */
-    for (int i = begin; i < end; ++ i) {
-        // buffers to contain the converted variables
-        char index[_SMALL_BUFFER_SIZE];
-        char num[_SMALL_BUFFER_SIZE];
-        char price[_SMALL_BUFFER_SIZE];
-        char sales[_SMALL_BUFFER_SIZE];
-        char revenue[_SMALL_BUFFER_SIZE];
-        
-        // int to string
-        _int_to_string(index, i);
-        _int_to_string(num, list->parts[i]->partNum);
-        _int_to_string_with_comma(price, list->parts[i]->price);
-        _int_to_string_with_comma(sales, list->parts[i]->sales);
-        _int_to_string_with_comma(revenue, list->parts[i]->revenue);
-        
-        const char *partProperties[_COLUMN_NUM] = { index, num, list->parts[i]->partName, list->parts[i]->specification, price, sales, revenue };
-        
-        // print all properties center-aligned, covered and divided by "|"
-        fprintln_string_cells_with_token(fp, partProperties, _COLUMN_NUM, " ", list->colomnSpaces, "║", "║" ,"║");
-    }
-    
-    /* optional thing to do when printing all */
-    if (specificIndex == _LIST_ALL) {
-        fprintln_string_cells_with_token(fp, NULL, _COLUMN_NUM, "═", list->colomnSpaces, "╠", "╬", "╣");
-        char salesTotal[_SMALL_BUFFER_SIZE];
-        char revenueTotal[_SMALL_BUFFER_SIZE];
-        
-        unsigned int salesCount = 0;
-        unsigned int revCount = 0;
-        for (register unsigned int i = 0; i < list->numberOfParts; ++ i) {
-            salesCount += list->parts[i]->sales;
-            revCount += list->parts[i]->revenue;
-        }
-        
-        _int_to_string_with_comma(salesTotal, salesCount);
-        _int_to_string_with_comma(revenueTotal, revCount);
-        const char *partProperties[_COLUMN_NUM] = {"Total", "", "", "", "", salesTotal, revenueTotal};
-        
-        // print totals
-        fprintln_string_cells_with_token(fp, partProperties, _COLUMN_NUM, " ", list->colomnSpaces, "║", "║", "║");
-        
-        fprintln_string_cells_with_token(fp, NULL, _COLUMN_NUM, "═", list->colomnSpaces,"╚", "╩", "╝");
-    }
-    else {
-        fprintln_string_cells_with_token(fp, NULL, _COLUMN_NUM, "═", list->colomnSpaces,"╚", "╩", "╝");
-        
-    }
-    fclose(fp);
-    
-    printf("Exported to %s\n", exportFilePath);
-}
-
 
 //
 //  Author

@@ -87,14 +87,6 @@ void clear_console(void);
 char *allocate_string(const char *buffer);
 char **allocate_strings(const char **buffer, const int stringCount);
 
-void println_string_cells_with_token(const char **string,
-                                     const int stringCount,
-                                     const char *token,
-                                     const int *tokenLengths,
-                                     const char *leftBorder,
-                                     const char *centerBorder,
-                                     const char *rightBorder);
-
 void fprintln_string_cells_with_token(FILE *fp,
                                       const char **string,
                                       const int stringCount,
@@ -104,26 +96,12 @@ void fprintln_string_cells_with_token(FILE *fp,
                                       const char *centerBorder,
                                       const char *rightBorder);
 
-
-void println_string_with_token(const char *string,
-                               const char *token,
-                               const int tokenLength,
-                               const char *leftBorder,
-                               const char *rightBorder);
-
 void fprintln_string_with_token(FILE *fp,
                                 const char *string,
                                 const char *token,
                                 const int tokenLength,
                                 const char *leftBorder,
                                 const char *rightBorder);
-
-
-void print_string_with_token(const char *string,
-                             const char *token,
-                             const int tokenLength,
-                             const char *leftBorder,
-                             const char *rightBorder);
 
 void fprint_string_with_token(FILE *fp,
                               const char *string,
@@ -133,12 +111,9 @@ void fprint_string_with_token(FILE *fp,
                               const char *rightBorder);
 
 
-void println_token(const char *token, const unsigned int length);
 void fprintln_token(FILE *fp, const char *token, const unsigned int length);
 
-void print_token(const char *token, const unsigned int length);
 void fprint_token(FILE *fp, const char *token, const unsigned int length);
-
 
 void wait_for_enter(void);
 

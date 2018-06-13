@@ -63,7 +63,7 @@ char *get_input_string(const char *output, const int withBox) {
     
     if (output) {
         printf("%s", output);
-        print_token(" ", _BUFFER_SIZE);
+        fprint_token(stdout, " ", _BUFFER_SIZE);
         movexy(-(_BUFFER_SIZE), 0);
     }
     
@@ -156,30 +156,6 @@ char **allocate_strings(const char **buffer, const int stringCount) {
     return strings;
 }
 
-void println_string_cells_with_token(const char **string,
-                                     const int stringCount,
-                                     const char *token,
-                                     const int *tokenLengths,
-                                     const char *leftBorder,
-                                     const char *centerBorder,
-                                     const char *rightBorder){
-    printf("%s", leftBorder);
-    for (int i = 0; i < stringCount; ++ i) {
-        
-        if (string) {
-            print_token(token, (tokenLengths[i] - (int)strlen(string[i]) - 1) / 2);
-            printf("%s", string[i]);
-            print_token(token, (tokenLengths[i] - (int)strlen(string[i])) / 2);
-        }
-        else {
-            print_token(token, tokenLengths[i] - 1);
-        }
-        
-        if (i < stringCount - 1)
-            printf("%s", centerBorder);
-    }   printf("%s\n", rightBorder);
-}
-
 void fprintln_string_cells_with_token(FILE *fp,
                                       const char **string,
                                      const int stringCount,
@@ -205,16 +181,6 @@ void fprintln_string_cells_with_token(FILE *fp,
     }   fprintf(fp, "%s\n", rightBorder);
 }
 
-
-void println_string_with_token(const char *string,
-                               const char *token,
-                               const int tokenLength,
-                               const char *leftBorder,
-                               const char *rightBorder) {
-    print_string_with_token(string, token, tokenLength, leftBorder, rightBorder);
-    printf("\n");
-}
-
 void fprintln_string_with_token(FILE *fp,
                                 const char *string,
                                const char *token,
@@ -223,25 +189,6 @@ void fprintln_string_with_token(FILE *fp,
                                const char *rightBorder) {
     fprint_string_with_token(fp, string, token, tokenLength, leftBorder, rightBorder);
     fprintf(fp, "\n");
-}
-
-void print_string_with_token(const char *string,
-                             const char *token,
-                             const int tokenLength,
-                             const char *leftBorder,
-                             const char *rightBorder) {
-    printf("%s", leftBorder);
-    
-    if (string) {
-        print_token(token, (tokenLength - (int)strlen(string) - 1) / 2);
-        printf("%s", string);
-        print_token(token, (tokenLength - (int)strlen(string)) / 2);
-    }
-    else {
-        print_token(token, tokenLength - 1);
-    }
-    
-    printf("%s", rightBorder);
 }
 
 void fprint_string_with_token(FILE *fp,
@@ -264,19 +211,9 @@ void fprint_string_with_token(FILE *fp,
     fprintf(fp, "%s", rightBorder);
 }
 
-void println_token(const char *token, const unsigned int length) {
-    print_token(token, length);
-    printf("\n");
-}
-
 void fprintln_token(FILE *fp, const char *token, const unsigned int length) {
     fprint_token(fp, token, length);
     fprintf(fp, "\n");
-}
-
-void print_token(const char *token, const unsigned int length) {
-    for (unsigned register int i = 0; i < length; ++ i)
-        printf("%s", token);
 }
 
 void fprint_token(FILE *fp, const char *token, const unsigned int length) {

@@ -45,10 +45,9 @@ void start_main_loop(const char *dataFilePath, const char *exportFilePath, Sales
 void start_edit_loop(SalesList list);
 void create_new_part_from_input(SalesList list);
 void add_to_list(SalesList list, Part part);
-void print_sales_list(SalesList list, const unsigned int specificIndex);
+void fprint_sales_list(FILE *exportFile, SalesList list, const unsigned int specificIndex);
 void read_sales_list(const char *dataFilePath, SalesList list);
 void write_sales_list(const char *dataFilePath, SalesList list);
-void export_sales_list(const char *exportFilePath, SalesList list, const unsigned int specificIndex);
 
 #endif /* SalesManagement_h */
 
