@@ -12,8 +12,8 @@
         "Name": "CPU", 
         "Specification": "Fast", 
         "Price": "235000", 
-        "Sales": "0", 
-        "Revenue": "0"
+        "Sales": "1", 
+        "Revenue": "235000"
     },
     {
         "Number": "1003", 
