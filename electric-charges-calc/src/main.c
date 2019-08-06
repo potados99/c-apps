@@ -96,7 +96,8 @@ error_option:
 	goto usage;
 
 usage:
-	puts("Usage: calculate [-s] power_usage");
+	puts("Usage: calculate [-hs] power_usage");
+	puts("	-h	Print result in comma-separated form.");
 	puts("	-s	Apply winter/summer extra charge.");
 	return -1;
 }
