@@ -5,7 +5,7 @@
 Command line tool for calculating electricity charges.
 
 - Input: electricity usage in kWh.
-- Output: Charges you have to pay in Korean Won.
+- Output: charges you have to pay in Korean Won.
 
 ## Usage
 
