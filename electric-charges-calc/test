@@ -1,0 +1,5 @@
+#!/bin/zsh
+
+make
+
+for i in $(seq 0 500); do sleep 0.01; clear; echo $i; ./calculate -h $i; done
