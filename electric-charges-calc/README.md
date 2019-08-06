@@ -15,5 +15,5 @@ calculate [-hs] power_usage
 
 #### Options
 
-- \-h	Print result in comma-separated form.
-- \-s	Apply winter/summer extra charge.
+- `\-h`	Print result in comma-separated form.
+- `\-s`	Apply winter/summer extra charge.
