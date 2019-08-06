@@ -1,6 +1,6 @@
 /**
   * types.h
-  * 
+  *
   * create: 2019.08.07
   * author: potados
   */

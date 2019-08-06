@@ -1,7 +1,19 @@
-# Experiment on []
+# Elecetricity Charges Calculator
 
-## Purpose
+## Summary
 
-## Sources
+Command line tool for calculating electricity charges.
 
-## Conclusion
+- Input: electricity usage in kWh.
+- Output: Charges you have to pay in Korean Won.
+
+## Usage
+
+~~~
+calculate [-hs] power_usage
+~~~
+
+#### Options
+
+- \-h	Print result in comma-separated form.
+- \-s	Apply winter/summer extra charge.
