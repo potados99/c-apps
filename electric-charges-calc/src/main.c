@@ -1,5 +1,5 @@
 /**
-  * electric_charges.h
+  * main.c
   * 
   * create: 2019.08.07
   * author: potados

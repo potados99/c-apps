@@ -1,3 +1,10 @@
+/**
+  * step_function.c
+  * 
+  * create: 2019.08.07
+  * author: potados
+  */
+
 #include "step_function.h"
 
 static inline int select_range(struct numeric_range *restrict result, const struct numeric_range *restrict range, range_t begin, range_t end) {
